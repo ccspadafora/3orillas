@@ -6,7 +6,7 @@ Repositorio: https://github.com/ccspadafora/3orillas (público; rama `main`). So
 
 ## Fuente de verdad del diseño (carpeta `../3Orillas/3 Orillas/`)
 - `index.html`: diseño completo (CSS, contenido y JavaScript de todas las vistas).
-- `demo.html`: demos navegables que se cargan en iframe dentro del Demo Lab.
+- `demo.html`: demos simuladas del diseño. **Ya no se usan**: el Demo Lab abre las plataformas reales (ver «Zoom y Demo Lab»).
 - `media/`: logos, retratos, capturas y videos.
 - **No editar estos archivos.** Son la referencia. La implementación debe ser fiel en diseño, interacciones, estética y efectos.
 
@@ -21,7 +21,7 @@ Repositorio: https://github.com/ccspadafora/3orillas (público; rama `main`). So
 1. **URLs reales**, no rutas `#`: `/`, `/trabajo/`, `/trabajo/<proyecto>/`, `/servicios/`, `/demo-lab/`, `/metodo/`, `/estudio/`, `/contacto/`. Filtros de categoría con `?cat=` o `/trabajo/categoria/<cat>/`. Se conserva la animación de entrada de cada vista.
 2. **Contactos → WordPress + correo.** Los tres formularios (WhatsApp de la propuesta del inicio, contacto, número del chat) guardan el contacto en el admin y envían correo al equipo. Casilla obligatoria de autorización de tratamiento de datos (Ley 1581) con enlace a la política. Nonce, sanitización y límite de envíos.
 3. **Nada simulado.** Misma estética y animaciones, pero:
-   - "Videollamada" abre un enlace real (Zoom o agenda) configurable en Ajustes.
+   - "Videollamada" agenda una reunión real de Zoom por API (decisión del 2026-11-19, ver «Zoom y Demo Lab»). Sin credenciales, usa el enlace de Ajustes o WhatsApp.
    - El chat "Cotiza en vivo" no muestra precios inventados ni "asesores disponibles" falsos; termina en WhatsApp o en el formulario.
    - Los textos "[Resultado medible]" y "$[VALOR]" del diseño son marcadores: no publicarlos.
 4. **Contenido editable desde el admin:** proyectos (cliente, tipo, año, orilla, categorías, intro, reto, solución, resultado, stack, imagen, captura, galería, video, demo, móvil, tamaño en cuadrícula, chip). Servicios, fases y textos fijos en ajustes del tema o bloques sencillos.
@@ -51,7 +51,19 @@ Repositorio: https://github.com/ccspadafora/3orillas (público; rama `main`). So
 - Redirecciones 301 desde las URLs viejas en `TOR_Redirecciones` (solo actúan si la URL da 404).
 - Propuestas y entregables de clientes (propuesta-*, Borgo, Trim, Panaderías, Tathem, NymeCall, Manual de marca, 3 Cordilleras) NO se migran. Antes del lanzamiento: decidir si van a un subdominio o se archivan.
 
+## Zoom y Demo Lab (2026-11-19)
+- **Zoom por API** (`includes/class-tor-zoom.php`): app Server-to-Server OAuth. Credenciales SOLO en `wp-config.php` (o variables de entorno): `TOR_ZOOM_ACCOUNT_ID`, `TOR_ZOOM_CLIENT_ID`, `TOR_ZOOM_CLIENT_SECRET` y `TOR_ZOOM_ANFITRION` (correo del usuario anfitrión). Alcances: `meeting:write:meeting:admin`, `meeting:read:list_meetings:admin`.
+  - Los botones «Videollamada por Zoom» abren la sala con un agendador: días hábiles dentro del horario de Ajustes, turnos de 30 min, mínimo 2 h de anticipación, sin los horarios ya ocupados en Zoom.
+  - Al agendar: se vuelve a validar el horario, se crea la reunión (sala de espera, sin entrar antes del anfitrión), se guarda en Contactos (origen «Videollamada por Zoom», campo Videollamada) y se avisa por correo. El visitante recibe el enlace para unirse y «Añadir a Google Calendar». El enlace de anfitrión (start_url) nunca sale del servidor.
+  - Seguridad: nonce, campo trampa, límite de envíos compartido con Contactos, autorización Ley 1581.
+- **Demo Lab con plataformas reales en producción y usuario de prueba.** Campos del proyecto: URL, usuario, clave y nota (admin → Proyectos). Solo aparecen los proyectos con URL. Se abren en pestaña nueva (Valfora, HAB y Wanti bloquean iframes; los navegadores bloquean la sesión en iframes de terceros).
+  - seeds → erp.seedscol.com · crm → 16.59.184.151.sslip.io/portal · insivo → 44.214.163.14 (Clínica Sabana Norte; supuesto: es Insivo) · hab → app.hab.com.co · reto → reto.seedscol.com · valfora-erp → erp.valforaholdings.com · wanti → app.wantiapp.com.
+  - Valfora ERP y Wanti son proyectos nuevos con ficha mínima («Ficha en preparación»): completar textos e imágenes en el admin.
+  - Las credenciales se escriben en el admin, no en el código ni en el repositorio.
+
 ## Pendientes antes de producción
+- Zoom: crear la app Server-to-Server OAuth y poner las 4 constantes en `wp-config.php` del servidor.
+- Demo Lab: cargar usuario y clave de prueba de cada plataforma en el admin. Confirmar que cada usuario de prueba solo ve datos ficticios y tiene permisos mínimos (Clínica Sabana Norte maneja datos de salud). Poner HTTPS a 44.214.163.14.
 - Configurar en Ajustes → 3 Orillas: correo de contactos y enlace de videollamada (sin enlace, los botones abren WhatsApp).
 - Completar en la página "Política de tratamiento de datos" el NIT y la fecha de vigencia (razón social y correo ya están: Valfora Holdings S.A.S., valforaholdings.sas@gmail.com).
 - Decidir qué hacer con las propuestas y entregables de clientes del sitio actual antes de apuntar el dominio.
