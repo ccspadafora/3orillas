@@ -1,0 +1,48 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/theme.json",
+  "version": 3,
+  "settings": {
+    "appearanceTools": false,
+    "layout": { "contentSize": "720px", "wideSize": "1280px" },
+    "color": {
+      "custom": false, "customGradient": false, "defaultPalette": false, "defaultGradients": false,
+      "palette": [
+        { "slug": "marfil", "name": "Marfil", "color": "#F5F2EC" },
+        { "slug": "papel", "name": "Papel", "color": "#FBFAF7" },
+        { "slug": "piedra", "name": "Piedra", "color": "#E7E2D9" },
+        { "slug": "tinta", "name": "Tinta", "color": "#0E0E10" },
+        { "slug": "grafito", "name": "Grafito", "color": "#3A3A3C" },
+        { "slug": "cuerpo", "name": "Cuerpo", "color": "#4A4A4E" },
+        { "slug": "tenue", "name": "Tenue", "color": "#7C786F" },
+        { "slug": "champan", "name": "Champán", "color": "#C9B38A" },
+        { "slug": "bronce", "name": "Bronce", "color": "#6B5736" },
+        { "slug": "salvia", "name": "Salvia", "color": "#A9C2A0" },
+        { "slug": "oliva", "name": "Oliva", "color": "#46603F" },
+        { "slug": "hielo", "name": "Hielo", "color": "#A9C1E8" },
+        { "slug": "cobalto", "name": "Cobalto", "color": "#34548F" }
+      ]
+    },
+    "typography": {
+      "customFontSize": false, "defaultFontSizes": false, "fluid": false,
+      "fontFamilies": [
+        { "slug": "serif", "name": "Instrument Serif", "fontFamily": "\"Instrument Serif\", \"Times New Roman\", Georgia, serif" },
+        { "slug": "sans", "name": "Inter Tight", "fontFamily": "\"Inter Tight\", \"Inter\", system-ui, -apple-system, \"Segoe UI\", sans-serif" }
+      ],
+      "fontSizes": [
+        { "slug": "small", "name": "Pequeño", "size": "14px" },
+        { "slug": "body", "name": "Cuerpo", "size": "17px" },
+        { "slug": "h-m", "name": "Título M", "size": "clamp(28px, 2.6vw, 36px)" },
+        { "slug": "h-l", "name": "Título L", "size": "clamp(38px, 4vw, 58px)" },
+        { "slug": "h-xl", "name": "Título XL", "size": "clamp(48px, 5.6vw, 84px)" }
+      ]
+    },
+    "spacing": { "padding": false, "margin": false }
+  },
+  "styles": {
+    "color": { "background": "var(--wp--preset--color--marfil)", "text": "var(--wp--preset--color--tinta)" },
+    "typography": { "fontFamily": "var(--wp--preset--font-family--sans)" },
+    "elements": {
+      "heading": { "typography": { "fontFamily": "var(--wp--preset--font-family--serif)", "fontWeight": "400" } }
+    }
+  }
+}
