@@ -24,6 +24,7 @@ if (G && ST) G.registerPlugin(ST); if (G && window.Flip) G.registerPlugin(window
 const urlCat = c => c === 'todo' ? U.trabajo : U.trabajo + (U.trabajo.indexOf('?') > -1 ? '&' : '?') + 'cat=' + encodeURIComponent(c);
 const urlDemo = d => U.demoLab + (U.demoLab.indexOf('?') > -1 ? '&' : '?') + 'app=' + encodeURIComponent(d);
 const urlWa = t => 'https://wa.me/' + encodeURIComponent(AJ.wa || '') + (t ? '?text=' + encodeURIComponent(t) : '');
+const hostDe = u => { try { return new URL(u).host; } catch (e) { return String(u || ''); } };
 const svgFlecha = '<svg class="flecha" viewBox="0 0 14 14" aria-hidden="true"><path d="M4 10L10 4M5 4h5v5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>';
 
 /* ================= Horario de atención (hora de Bogotá) ================= */
@@ -301,16 +302,21 @@ if (labWrap) {
   const conDemo = PROJECTS.filter(x => x.demo);
   let labApp = labWrap.dataset.app || 'seeds', labTab = 'demo';
   if (!conDemo.some(x => x.demo === labApp)) labApp = conDemo.length ? conDemo[0].demo : '';
-  const demoSrc = d => U.demo + '#' + encodeURIComponent(d);
   function lab() {
     const p = conDemo.find(x => x.demo === labApp); if (!p) return;
-    $('#labLista').innerHTML = conDemo.map(x => `<button class="lab-item" role="tab" aria-selected="${x.demo === labApp}" data-app="${esc(x.demo)}"><img src="${esc(x.img)}" alt=""><span><b>${esc(x.name)}</b><span>${x.mobile ? 'App móvil' : 'Plataforma web'}</span></span></button>`).join('');
+    $('#labLista').innerHTML = conDemo.map(x => `<button class="lab-item" role="tab" aria-selected="${x.demo === labApp}" data-app="${esc(x.demo)}">${x.img ? `<img src="${esc(x.img)}" alt="">` : `<span class="lab-ini" style="background:${esc(x.tipo ? x.tipo[0] : '#1f1f23')};color:${esc(x.tipo ? x.tipo[1] : '#F5F2EC')};">${esc(x.name.charAt(0))}</span>`}<span><b>${esc(x.name)}</b><span>${x.mobile ? 'App móvil' : 'Plataforma web'}</span></span></button>`).join('');
     $('#lTag').innerHTML = `<span class="dot o-${esc(p.o)}"></span>${esc(p.kind)}`; $('#lNombre').textContent = p.name;
     $$('.tabs button').forEach(b => b.setAttribute('aria-selected', b.dataset.tab === labTab));
     let h = '';
     if (labTab === 'demo') {
-      h = p.mobile ? `<div class="escena-cel"><div class="celular"><iframe src="${esc(demoSrc(p.demo))}" title="Demo navegable de ${esc(p.name)}"></iframe></div></div>` : `<div class="navegador"><div class="barra"><i></i><i></i><i></i><span>demo.3orillas.com/${esc(p.demo)}</span></div><iframe class="demo-frame" src="${esc(demoSrc(p.demo))}" title="Demo navegable de ${esc(p.name)}"></iframe></div>`;
-      $('#labCred').innerHTML = p.mobile ? '<span>Toca la pantalla del celular para avanzar.</span>' : `<span>Usuario <code>demo@${esc(p.demo)}.co</code></span><span>Clave <code>Demo2026</code></span><span class="tenue">Ya están escritos: pulsa Ingresar.</span>`;
+      let host = p.demoUrl; try { host = new URL(p.demoUrl).host; } catch (e) { /* URL sin formato */ }
+      const prev = p.tipo ? `<div class="tipo" style="background:${esc(p.tipo[0])};color:${esc(p.tipo[1])};"><span>${esc(p.client)}</span><b>${esc(p.name)}</b><span>${esc(p.kind)}</span></div>` : (p.video && !p.mobile ? `<video src="${esc(p.video)}" poster="${esc(p.img)}" autoplay muted loop playsinline aria-hidden="true"></video>` : `<img src="${esc(p.shot || p.img)}" alt="">`);
+      const entrar = `<div class="lab-entrar"><a class="btn btn-marfil" href="${esc(p.demoUrl)}" target="_blank" rel="noopener">Abrir ${esc(p.name)} ${svgFlecha}</a><span>Se abre en una pestaña nueva</span></div>`;
+      h = p.mobile && p.video ? `<div class="lab-acceso movil"><div class="escena-cel"><div class="celular"><video src="${esc(p.video)}" autoplay muted loop playsinline aria-hidden="true"></video></div></div>${entrar}</div>` : `<div class="navegador lab-acceso"><div class="barra"><i></i><i></i><i></i><span>${esc(host)}</span></div><div class="lab-previa">${prev}${entrar}</div></div>`;
+      const cp = v => `<code>${esc(v)}</code><button type="button" class="lab-copiar" data-copiar="${esc(v)}">Copiar</button>`;
+      $('#labCred').innerHTML = p.demoUser
+        ? `<span class="lab-llave">Acceso de prueba</span><span>Usuario ${cp(p.demoUser)}</span>${p.demoPass ? `<span>Clave ${cp(p.demoPass)}</span>` : ''}${p.demoNota ? `<span class="tenue">${esc(p.demoNota)}</span>` : ''}${/^http:/i.test(p.demoUrl) ? '<span class="lab-aviso">Conexión sin candado (http)</span>' : ''}`
+        : `<span>Te damos un usuario de prueba en minutos.</span><a class="btn btn-borde btn-sm" href="${esc(urlWa('Hola, quiero un usuario de prueba para ' + p.name + '.'))}" target="_blank" rel="noopener">Pedir acceso por WhatsApp</a>`;
     } else if (labTab === 'video' && p.video) {
       h = p.mobile ? `<div class="escena-cel"><div class="celular"><video src="${esc(p.video)}" autoplay muted loop playsinline controls aria-label="Video de ${esc(p.name)}"></video></div></div>` : `<div class="navegador"><div class="barra"><i></i><i></i><i></i><span>Recorrido de ${esc(p.name)}</span></div><video src="${esc(p.video)}" autoplay muted loop playsinline controls aria-label="Video de ${esc(p.name)}"></video></div>`;
       $('#labCred').innerHTML = '';
@@ -416,9 +422,9 @@ $$('.orilla').forEach(c => {
         <p class="mg-etq"><span class="live"></span>${demos.length} plataformas navegables</p>
         ${demos.map(p => `<a href="${esc(urlDemo(p.demo))}" data-demo="${esc(p.id)}"${p === p0 ? ' class="on"' : ''}><b>${esc(p.name)}</b><small>${esc(p.kind)}</small><em>Entrar ${flecha}</em></a>`).join('')}
       </div>
-      <div class="mg-vista"><div class="mg-barra"><i></i><i></i><i></i><span id="mgUrl">demo.3orillas.com/${esc(p0.demo)}</span></div>
+      <div class="mg-vista"><div class="mg-barra"><i></i><i></i><i></i><span id="mgUrl">${esc(hostDe(p0.demoUrl))}</span></div>
         ${p0.video && !p0.mobile ? `<video id="mgVid" src="${esc(p0.video)}" poster="${esc(p0.img)}" autoplay muted loop playsinline aria-hidden="true"></video>` : `<img id="mgVid" src="${esc(p0.img)}" alt="">`}
-        <span class="mg-acceso">Usuario demo · sin registro</span></div>`;
+        <span class="mg-acceso">Acceso con usuario de prueba</span></div>`;
   };
 
   const DATA = { trabajo, servicios, 'demo-lab': demoLab };
@@ -439,7 +445,7 @@ $$('.orilla').forEach(c => {
     const d = e.target.closest('[data-demo]'); if (!d || d.classList.contains('on')) return;
     const p = byId[d.dataset.demo]; const v = $('#mgVid'); if (!p || !v) return;
     m.querySelectorAll('[data-demo]').forEach(x => x.classList.toggle('on', x === d));
-    $('#mgUrl').textContent = 'demo.3orillas.com/' + p.demo;
+    $('#mgUrl').textContent = hostDe(p.demoUrl);
     if (v.tagName === 'VIDEO' && p.video && !p.mobile) { v.poster = p.img; v.src = p.video; v.play().catch(() => {}); }
     else if (v.tagName === 'VIDEO') { v.removeAttribute('src'); v.load(); v.poster = p.img; }
     else v.src = p.img;
@@ -509,6 +515,7 @@ $$('[data-chat]').forEach(b => b.addEventListener('click', abrirChat)); $('#cerr
    se muestra dentro de la sala; si no, en otra pestaña. Sin enlace, abre WhatsApp. */
 const sala = $('#sala');
 function llamar() {
+  if (AJ.zoom) { agendaZoom(); return; }
   const url = AJ.llamada;
   if (!url) { window.open(urlWa('Hola, quiero agendar una videollamada con un asesor de 3 Orillas.'), '_blank', 'noopener'); return; }
   if (!AJ.embebida) { window.open(url, '_blank', 'noopener'); return; }
@@ -517,7 +524,7 @@ function llamar() {
   const fr = document.createElement('iframe'); fr.src = url; fr.title = 'Agenda de videollamada'; fr.style.opacity = '0'; fr.onload = () => { fr.style.opacity = '1'; const c = main.querySelector('.conectando'); if (c) c.remove(); }; main.appendChild(fr);
   $('#salaFuera').href = url; sala.hidden = false; $('#finLlamada').focus();
 }
-function colgar() { sala.hidden = true; $('#salaMain').innerHTML = ''; }
+function colgar() { sala.hidden = true; $('#salaMain').innerHTML = ''; $('#salaMain').className = 'sala-main agenda'; $('#salaFuera').style.display = 'inline-flex'; }
 $$('[data-llamar]').forEach(b => b.addEventListener('click', llamar)); $('#finLlamada').onclick = colgar;
 sala.addEventListener('click', e => { if (e.target === sala) colgar(); });
 addEventListener('keydown', e => { if (e.key === 'Escape') { if (!sala.hidden) colgar(); else if (!panel.hidden) cerrarChat(); } });
@@ -773,5 +780,78 @@ if (G && ST && !reduce) $$('.tor-pila-carta, .tor-comp, .tor-item, .tor-svc, .to
 /* Oficina: la foto se desplaza más lento que la página; la galería del equipo entra escalonada */
 if (G && ST && !reduce) $$('[data-oficina] > img').forEach(im => G.fromTo(im, { yPercent: -6 }, { yPercent: 6, ease: 'none', scrollTrigger: { trigger: im.parentNode, start: 'top bottom', end: 'bottom top', scrub: true } }));
 if (G && ST && !reduce) $$('.tor-galeria figure').forEach((f, i) => G.from(f, { y: 70 + i * 30, opacity: 0, duration: 1.2, ease: 'expo.out', scrollTrigger: { trigger: f, start: 'top 92%' } }));
+
+/* ================= ZOOM: agendar una videollamada real (API del plugin) ================= */
+function agendaZoom() {
+  const main = $('#salaMain'), fuera = $('#salaFuera'); if (!main) return;
+  fuera.style.display = 'none'; $('#salaEstado').textContent = 'Agenda tu videollamada';
+  main.className = 'sala-main agenda tor-zoom';
+  main.innerHTML = '<div class="tz-cargando"><span class="tor-puntos"><i></i><i></i><i></i></span><p class="small">Buscando horarios libres…</p></div>';
+  sala.hidden = false; $('#finLlamada').focus();
+  const post = async (accion, datos) => {
+    const fd = new FormData(); Object.entries(datos || {}).forEach(([k, v]) => fd.append(k, v == null ? '' : v));
+    fd.append('action', accion); fd.append('nonce', TOR.nonce || ''); fd.append('pagina', location.href);
+    let r = await fetch(TOR.ajax, { method: 'POST', body: fd, credentials: 'same-origin' }); let j = {}; try { j = await r.json(); } catch (e) { /* vacío */ }
+    if (r.status === 403 && j.data && j.data.codigo === 'nonce') {
+      try { const n = await fetch(TOR.ajax + '?action=tor_nonce', { credentials: 'same-origin' }).then(x => x.json()); if (n && n.data && n.data.nonce) { TOR.nonce = n.data.nonce; fd.set('nonce', TOR.nonce); r = await fetch(TOR.ajax, { method: 'POST', body: fd, credentials: 'same-origin' }); j = await r.json(); } } catch (e) { /* sin red */ }
+    }
+    return j;
+  };
+  const falla = msg => { main.innerHTML = `<div class="tz-falla"><h3 class="h-m">No pudimos abrir la agenda</h3><p class="small">${esc(msg || 'Inténtalo de nuevo en un momento.')}</p><a class="btn btn-marfil btn-sm" href="${esc(urlWa('Hola, quiero agendar una videollamada con un asesor de 3 Orillas.'))}" target="_blank" rel="noopener">Agendar por WhatsApp</a></div>`; };
+  let elegido = null;
+  post('tor_zoom_horarios').then(j => {
+    const dias = j && j.success && j.data && j.data.dias; if (!dias || !dias.length) return falla(j && j.data && j.data.msg);
+    main.innerHTML = `<div class="tz">
+      <div class="tz-cal">
+        <p class="etq">1 · Elige el día y la hora</p>
+        <div class="tz-dias" role="tablist" aria-label="Días">${dias.map((d, i) => `<button type="button" role="tab" class="tz-dia" aria-selected="${!i}" data-i="${i}">${esc(d.dia)}</button>`).join('')}</div>
+        <div class="tz-horas" id="tzHoras"></div>
+        <p class="small tz-zona">Hora de Bogotá · 30 minutos por Zoom</p>
+      </div>
+      <form class="tz-form" id="tzForm" novalidate>
+        <p class="etq">2 · Tus datos</p>
+        <p class="tz-sel" id="tzSel">Elige un horario.</p>
+        <label class="campo" for="tzNom">Nombre<input class="input" id="tzNom" autocomplete="name" maxlength="120"></label>
+        <label class="campo" for="tzTel">WhatsApp<input class="input" id="tzTel" type="tel" inputmode="tel" autocomplete="tel" maxlength="40"></label>
+        <label class="campo" for="tzLin">¿De qué quieres hablar?<select class="input" id="tzLin">${(TOR.servs || []).map(s => `<option>${esc(s.name)}</option>`).join('')}<option>Otro tema</option></select></label>
+        <label class="acepto" for="tzOk"><input type="checkbox" id="tzOk"><span>Autorizo el tratamiento de mis datos según la <a href="${esc(U.politica)}" target="_blank" rel="noopener">política de datos</a>.</span></label>
+        <span class="trampa" aria-hidden="true"><input type="text" name="sitio" tabindex="-1" autocomplete="off"></span>
+        <button class="btn btn-marfil" type="submit">Agendar videollamada</button>
+        <p class="small" id="tzMsg" role="status"></p>
+      </form></div>`;
+    const horas = i => {
+      $('#tzHoras').innerHTML = dias[i].horas.map(h => `<button type="button" class="tz-hora${elegido && elegido.t === h.t ? ' on' : ''}" data-t="${h.t}" data-txt="${esc(dias[i].dia + ' · ' + h.h)}">${esc(h.h)}</button>`).join('');
+      if (G && !reduce) G.from('#tzHoras .tz-hora', { y: 10, opacity: 0, duration: .35, stagger: .015, ease: 'power2.out' });
+    };
+    horas(0);
+    main.querySelector('.tz-dias').addEventListener('click', e => { const b = e.target.closest('.tz-dia'); if (!b) return; main.querySelectorAll('.tz-dia').forEach(x => x.setAttribute('aria-selected', x === b)); horas(+b.dataset.i); });
+    $('#tzHoras').addEventListener('click', e => { const b = e.target.closest('.tz-hora'); if (!b) return; elegido = { t: +b.dataset.t, txt: b.dataset.txt }; main.querySelectorAll('.tz-hora').forEach(x => x.classList.toggle('on', x === b)); $('#tzSel').innerHTML = `<b>${esc(elegido.txt)}</b>`; $('#tzNom').focus(); });
+    $('#tzForm').addEventListener('submit', async e => {
+      e.preventDefault(); const m = $('#tzMsg'); const err = t => { m.innerHTML = `<span class="msg-error">${esc(t)}</span>`; };
+      const nom = $('#tzNom').value.trim(), tel = $('#tzTel').value.trim();
+      if (!elegido) return err('Elige un día y una hora.');
+      if (!nom) return err('Escribe tu nombre.');
+      if (tel.replace(/\D/g, '').length < 7) return err('Escribe un WhatsApp de al menos 7 dígitos.');
+      if (!$('#tzOk').checked) return err('Marca la autorización de datos para poder agendar.');
+      const btn = e.target.querySelector('button[type=submit]'); btn.disabled = true; m.textContent = 'Creando la reunión en Zoom…';
+      const r = await post('tor_zoom_agendar', { t: elegido.t, nombre: nom, telefono: tel, linea: $('#tzLin').value, consent: '1', sitio: e.target.querySelector('[name=sitio]').value });
+      btn.disabled = false;
+      if (!r || !r.success) { if (r && r.data && r.data.codigo === 'horario') { elegido = null; } return err((r && r.data && r.data.msg) || 'No pudimos agendar. Escríbenos por WhatsApp.'); }
+      const d = r.data, gcal = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent('Videollamada con 3 Orillas') + '&dates=' + d.inicio + '/' + d.fin + '&details=' + encodeURIComponent('Enlace de Zoom: ' + d.join) + '&location=' + encodeURIComponent(d.join);
+      $('#salaEstado').textContent = 'Videollamada agendada';
+      main.innerHTML = `<div class="tz-listo"><span class="tz-check">${svgFlecha}</span><p class="etq">Listo, ${esc(nom.split(' ')[0])}</p><h3 class="h-m">${esc(d.cuando)}</h3><p class="small">Hora de Bogotá. Guarda el enlace; también te lo confirmamos por WhatsApp.</p><div class="tz-acciones"><a class="btn btn-marfil" href="${esc(d.join)}" target="_blank" rel="noopener">Abrir en Zoom</a><a class="btn btn-borde" href="${esc(gcal)}" target="_blank" rel="noopener">Añadir a Google Calendar</a></div></div>`;
+      if (G && !reduce) G.from('.tz-listo > *', { y: 16, opacity: 0, duration: .5, stagger: .06, ease: 'power3.out' });
+    });
+  }).catch(() => falla());
+}
+
+/* ================= DEMO LAB: acceso real a las plataformas ================= */
+(function accesoReal() {
+  const cred = $('#labCred'); if (!cred) return;
+  cred.addEventListener('click', async e => {
+    const b = e.target.closest('[data-copiar]'); if (!b) return;
+    try { await navigator.clipboard.writeText(b.dataset.copiar); b.textContent = 'Copiado'; setTimeout(() => { b.textContent = 'Copiar'; }, 1600); } catch (err) { b.textContent = 'Selecciónalo y copia'; }
+  });
+})();
 
 })();

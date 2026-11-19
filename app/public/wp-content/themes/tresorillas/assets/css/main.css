@@ -1135,3 +1135,58 @@ section.tor-escena { padding: 6px 16px 0; }
   .tor-logos-grupo { gap: 48px; padding-right: 48px; }
   .tor-logo img { height: 26px; }
 }
+
+/* ===================== Zoom: agenda dentro de la sala · Demo Lab con acceso real ===================== */
+.sala-main.tor-zoom { height: auto; min-height: 440px; max-height: min(78vh, 760px); overflow-y: auto; background: radial-gradient(80% 70% at 100% 0%, rgba(150,165,250,.18), transparent 60%), #0b0b0d; }
+.tz-cargando, .tz-falla, .tz-listo { min-height: 440px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; text-align: center; padding: 40px; color: #C8C5BE; }
+.tz-falla .h-m, .tz-listo .h-m { color: var(--marfil); }
+.tz { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 32px; padding: 32px; }
+.tz .etq { color: var(--hielo); margin-bottom: 14px; }
+.tz-dias { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; scrollbar-width: none; }
+.tz-dia { flex: none; padding: 10px 14px; border-radius: 14px; border: 1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.04); color: #E3DED4; font-size: 13.5px; cursor: pointer; transition: background .2s, border-color .2s; }
+.tz-dia:hover { border-color: rgba(255,255,255,.35); }
+.tz-dia[aria-selected="true"] { background: var(--marfil); color: var(--tinta); border-color: var(--marfil); }
+.tz-horas { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px; margin-top: 16px; }
+.tz-hora { padding: 11px 0; border-radius: 12px; border: 1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.03); color: var(--marfil); font-size: 14px; cursor: pointer; transition: background .2s, border-color .2s, transform .3s var(--ease); }
+.tz-hora:hover { border-color: var(--hielo); transform: translateY(-1px); }
+.tz-hora.on { background: var(--hielo); color: var(--tinta); border-color: var(--hielo); font-weight: 600; }
+.tz-zona { margin-top: 14px; color: #9E9A92; }
+.tz-form { display: flex; flex-direction: column; gap: 12px; padding: 22px; border-radius: 20px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1); }
+.tz-form .campo { color: #C8C5BE; }
+.tz-form .input { background: rgba(255,255,255,.95); }
+.tz-form .acepto { color: #C8C5BE; font-size: 12.5px; }
+.tz-form .acepto a { color: var(--marfil); }
+.tz-form .btn { align-self: flex-start; }
+.tz-sel { font-size: 14px; color: #9E9A92; }
+.tz-sel b::first-letter, .tz-listo .h-m::first-letter, .tz-dia::first-letter { text-transform: uppercase; }
+.tz-dia { display: inline-block; }
+.tz-sel b { font: 400 22px/1.15 var(--serif); color: var(--marfil); }
+#tzMsg { color: #C8C5BE; min-height: 1.2em; }
+.tz-listo .etq { color: var(--hielo); }
+
+.tz-check { width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; background: var(--hielo); color: var(--tinta); }
+.tz-check svg { width: 18px; height: 18px; }
+.tz-acciones { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 6px; }
+.tz-acciones .btn-borde { color: var(--marfil); border-color: rgba(255,255,255,.3); }
+
+.lab-acceso { position: relative; }
+.lab-previa { position: relative; aspect-ratio: 16 / 10; overflow: hidden; background: #fff; }
+.lab-previa video, .lab-previa img { width: 100%; height: 100%; object-fit: cover; object-position: top left; transition: transform 1.2s var(--ease), filter .6s; }
+.lab-previa .tipo { height: 100%; display: flex; flex-direction: column; justify-content: space-between; padding: 40px; }
+.lab-previa .tipo b { font: 400 clamp(56px, 7vw, 110px)/.95 var(--serif); }
+.lab-entrar { position: absolute; inset: auto 0 0 0; display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 80px 24px 32px; background: linear-gradient(0deg, rgba(14,14,16,.85), rgba(14,14,16,.35) 60%, transparent); }
+.lab-entrar span { font-size: 12.5px; color: #C8C5BE; }
+.lab-acceso:hover .lab-previa video, .lab-acceso:hover .lab-previa img { transform: scale(1.03); filter: brightness(.9); }
+.lab-acceso.movil { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 24px; }
+.lab-acceso.movil .lab-entrar { position: static; background: none; padding: 0; align-items: flex-start; }
+.tor-lab-sala .cred { gap: 14px; align-items: center; }
+.lab-llave { font-weight: 600; color: var(--marfil); }
+.lab-copiar { margin-left: 6px; padding: 5px 10px; border-radius: 999px; border: 1px solid rgba(255,255,255,.2); background: transparent; color: #E3DED4; font-size: 12px; cursor: pointer; }
+.lab-copiar:hover { background: rgba(255,255,255,.1); }
+.lab-aviso { font-size: 12px; color: #e7b98a; }
+@media (max-width: 860px) {
+  .tz { grid-template-columns: 1fr; padding: 20px; }
+  .lab-acceso.movil { grid-template-columns: 1fr; }
+}
+
+.lab-ini { width: 64px; height: 44px; border-radius: 10px; display: grid; place-items: center; font: 400 24px/1 var(--serif); border: 1px solid rgba(255,255,255,.12); }
