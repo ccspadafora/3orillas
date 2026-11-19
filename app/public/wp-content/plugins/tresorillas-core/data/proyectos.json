@@ -1,338 +1,368 @@
 [
- {
-  "id": "seeds",
-  "name": "Seeds",
-  "client": "Seeds Wellness",
-  "kind": "Tienda online y ERP",
-  "year": 2026,
-  "o": "c",
-  "cats": [
-   "ecommerce",
-   "erp",
-   "software"
-  ],
-  "img": "p/seeds-0.jpg",
-  "shot": "",
-  "gal": [
-   "p/seeds-det.jpg",
-   "p/seeds-1.jpg",
-   "p/seeds-2.jpg"
-  ],
-  "video": "vid-seeds.mp4",
-  "demo": "seeds",
-  "size": "ancha",
-  "chip": "De 2M a 30–40M al mes",
-  "intro": "Marca de bienestar en su primer año, sin estructura digital ni sistema comercial. Hicimos marca, tecnología y adquisición al mismo tiempo.",
-  "problem": "Ventas, inventario y seguimiento de clientes vivían en hojas de cálculo y conversaciones de WhatsApp.",
-  "solution": "Tienda online conectada a un ERP con inventario en tiempo real, pedidos, clientes y reportes en un solo lugar.",
-  "result": "De 2M a 30–40M en ventas al mes",
-  "stack": "Django, React y AWS. Integración con pasarela de pagos y WhatsApp."
- },
- {
-  "id": "crm",
-  "name": "CRM de Campo",
-  "client": "Natural Control",
-  "kind": "Fuerza de ventas con GPS",
-  "year": 2026,
-  "o": "t",
-  "cats": [
-   "software",
-   "apps"
-  ],
-  "img": "p/crm-0.jpg",
-  "shot": "",
-  "gal": [
-   "p/crm-det.jpg",
-   "p/crm-1.jpg"
-  ],
-  "video": "vid-crm.mp4",
-  "demo": "crm",
-  "size": "",
-  "chip": "Visitas verificadas por GPS",
-  "intro": "Una fuerza de ventas en la calle y una gerencia que no veía qué pasaba. Construimos el sistema que conecta a los dos.",
-  "problem": "La gerencia no tenía visibilidad de las visitas ni de los pedidos tomados en calle.",
-  "solution": "App para vendedores con verificación GPS, web administrativa y un tablero de gerencia en vivo integrado al ERP.",
-  "result": "",
-  "stack": "App móvil, web administrativa, GPS e integración con ERP."
- },
- {
-  "id": "insivo",
-  "name": "Insivo",
-  "client": "Clínicas de medicina estética",
-  "kind": "ERP y CRM para clínicas",
-  "year": 2026,
-  "o": "t",
-  "cats": [
-   "erp",
-   "software"
-  ],
-  "img": "p/insivo-0.jpg",
-  "shot": "",
-  "gal": [],
-  "video": "vid-insivo.mp4",
-  "demo": "insivo",
-  "size": "media",
-  "chip": "Agenda, historia y ventas",
-  "intro": "Una sola plataforma para agendar, atender, vender y fidelizar pacientes.",
-  "problem": "Agenda, historia clínica y ventas en sistemas separados que no se hablaban.",
-  "solution": "Agenda, historia clínica, ventas y recordatorios automáticos por WhatsApp en un mismo lugar.",
-  "result": "",
-  "stack": "Web, WhatsApp y pagos."
- },
- {
-  "id": "seeds-pauta",
-  "name": "Pauta y crecimiento",
-  "client": "Seeds Wellness",
-  "kind": "Campañas en Meta, Google y TikTok",
-  "year": 2026,
-  "o": "e",
-  "cats": [
-   "marketing"
-  ],
-  "img": "p/ads.jpg",
-  "shot": "",
-  "gal": [
-   "p/ads-det.jpg"
-  ],
-  "video": "",
-  "demo": "",
-  "size": "media",
-  "chip": "Costo por cliente a la vista",
-  "intro": "La pauta dejó de ser un gasto a ciegas: cada peso invertido se conecta con ventas reales en el ERP.",
-  "problem": "Las campañas se medían por likes y nadie sabía cuánto vendían.",
-  "solution": "Estrategia por embudo, contenido propio, campañas en Meta, Google y TikTok y un tablero semanal que cruza inversión con ventas.",
-  "result": "",
-  "stack": "Meta Ads, Google Ads, TikTok Ads y tablero propio. Cifras de las imágenes: datos de demostración."
- },
- {
-  "id": "hab",
-  "name": "HAB",
-  "client": "HAB Desarrolladores",
-  "kind": "Proptech con asesor de IA",
-  "year": 2026,
-  "o": "e",
-  "cats": [
-   "software",
-   "ia",
-   "marca",
-   "web"
-  ],
-  "img": "p/hab-0.jpg",
-  "shot": "",
-  "gal": [],
-  "video": "vid-hab.mp4",
-  "demo": "hab",
-  "size": "",
-  "chip": "Asesor con IA 24/7",
-  "intro": "Una constructora que operaba sin sistema de adquisición. Hicimos marca, web, ERP y un asesor con IA.",
-  "problem": "Operaba sin un sistema de adquisición ni de gestión comercial sólido.",
-  "solution": "Marca, sitio web, ERP, CRM de leads y un asesor inmobiliario con IA que atiende por WhatsApp.",
-  "result": "Sistema de adquisición funcionando",
-  "stack": "Web, IA conversacional y ERP."
- },
- {
-  "id": "raii",
-  "name": "RAII",
-  "client": "RAII",
-  "kind": "Apps de pasajero y conductor",
-  "year": 2026,
-  "o": "t",
-  "cats": [
-   "apps"
-  ],
-  "img": "p/raii-cover.jpg",
-  "shot": "s-raii-0.jpg",
-  "gal": [],
-  "video": "vid-raii.mp4",
-  "demo": "raii",
-  "mobile": true,
-  "size": "",
-  "chip": "iOS y Android",
-  "intro": "Un servicio de movilidad con dos experiencias distintas sobre un mismo backend.",
-  "problem": "Lanzar app de pasajero y app de conductor al mismo tiempo, con operación centralizada.",
-  "solution": "Apps iOS y Android para pasajero y conductor, más un panel web de operación.",
-  "result": "",
-  "stack": "iOS, Android y panel web."
- },
- {
-  "id": "seeds-retencion",
-  "name": "Recompra automática",
-  "client": "Seeds Wellness",
-  "kind": "Flujos de WhatsApp conectados al ERP",
-  "year": 2026,
-  "o": "t",
-  "cats": [
-   "ia",
-   "software"
-  ],
-  "img": "p/flujo.jpg",
-  "shot": "",
-  "gal": [],
-  "video": "",
-  "demo": "",
-  "size": "media",
-  "chip": "Seguimiento sin intervención",
-  "intro": "Cada clienta recibe el mensaje correcto en el momento en que se le acaba el producto.",
-  "problem": "Las clientas compraban una vez y nadie les hacía seguimiento.",
-  "solution": "Flujos automáticos por WhatsApp que se disparan desde el ERP según el producto y el tiempo de uso.",
-  "result": "",
-  "stack": "ERP Seeds, WhatsApp Business API y reglas de segmentación."
- },
- {
-  "id": "reto",
-  "name": "Reto 30 días",
-  "client": "Seeds Wellness",
-  "kind": "App de acompañamiento",
-  "year": 2026,
-  "o": "c",
-  "cats": [
-   "apps"
-  ],
-  "img": "p/reto-cover.jpg",
-  "shot": "s-reto-0.jpg",
-  "gal": [],
-  "video": "vid-reto.mp4",
-  "demo": "reto",
-  "mobile": true,
-  "size": "media",
-  "chip": "Más calma, menos azúcar",
-  "intro": "Acompañar a las clientas después de la compra con un reto diario: «Más calma, menos azúcar».",
-  "problem": "Las clientas compraban una vez y no volvían.",
-  "solution": "Una PWA con retos diarios, recordatorios y progreso, conectada al ERP de Seeds para ofrecer recompras.",
-  "result": "",
-  "stack": "PWA conectada al ERP de Seeds."
- },
- {
-  "id": "asistente",
-  "name": "Asistente de ventas",
-  "client": "3 Orillas",
-  "kind": "IA que atiende y agenda por WhatsApp",
-  "year": 2026,
-  "o": "t",
-  "cats": [
-   "ia"
-  ],
-  "img": "p/chat.jpg",
-  "shot": "",
-  "gal": [],
-  "video": "",
-  "demo": "",
-  "size": "",
-  "chip": "Califica y agenda solo",
-  "intro": "Nuestro propio asistente: responde, entiende qué necesita cada persona, muestra referentes y agenda la llamada.",
-  "problem": "Los mensajes llegaban a cualquier hora y muchos se enfriaban antes de recibir respuesta.",
-  "solution": "Un asistente con IA entrenado con nuestros servicios y casos, conectado al calendario y al CRM.",
-  "result": "",
-  "stack": "IA conversacional, WhatsApp, calendario y CRM."
- },
- {
-  "id": "marca-3o",
-  "name": "Identidad 3 Orillas",
-  "client": "3 Orillas",
-  "kind": "Manual de marca y piezas",
-  "year": 2026,
-  "o": "c",
-  "cats": [
-   "marca"
-  ],
-  "img": "p/marca-20.jpg",
-  "shot": "",
-  "gal": [
-   "p/marca-21.jpg",
-   "p/marca-19.jpg",
-   "p/marca-22.jpg",
-   "p/marca-23.jpg"
-  ],
-  "video": "",
-  "demo": "",
-  "size": "ancha",
-  "chip": "Estrategia, creatividad y tecnología",
-  "intro": "Nuestra propia identidad: tres orillas, un solo destino. Logotipo, retrato en blanco y negro, cristal y una onda que une todo.",
-  "problem": "La marca no comunicaba lo que el estudio hace ni para quién.",
-  "solution": "Manual de marca con logotipo, paleta, tipografía, fotografía y aplicaciones: web, papelería, carteles y redes.",
-  "result": "Un sistema que se aplica en todos los canales",
-  "stack": "Instrument Serif, Inter Tight, retrato B/N y cristal."
- },
- {
-  "id": "tatem",
-  "name": "Tatem",
-  "client": "Tatem",
-  "kind": "Rebranding, web y reservas",
-  "year": 2025,
-  "o": "c",
-  "cats": [
-   "marca",
-   "web",
-   "ecommerce"
-  ],
-  "img": "",
-  "tipo": [
-   "#1F1F23",
-   "#F5F2EC"
-  ],
-  "gal": [],
-  "video": "",
-  "demo": "",
-  "size": "",
-  "chip": "Marca + tecnología",
-  "intro": "Una marca con potencial y sin estructura digital. Del rebranding al ecosistema completo.",
-  "problem": "La marca no tenía una base digital sólida para crecer.",
-  "solution": "Rebranding, nuevo producto, sitio web con reservas, e-commerce y SEO/SEM.",
-  "result": "Ecosistema digital completo",
-  "stack": "Marca, web, reservas, e-commerce, SEO y SEM."
- },
- {
-  "id": "cordilleras",
-  "name": "3 Cordilleras",
-  "client": "Cervecería 3 Cordilleras",
-  "kind": "Diseño y adecuaciones web",
-  "year": 2025,
-  "o": "c",
-  "cats": [
-   "web"
-  ],
-  "img": "",
-  "tipo": [
-   "#C9B38A",
-   "#0E0E10"
-  ],
-  "gal": [],
-  "video": "",
-  "demo": "",
-  "size": "",
-  "chip": "Diseño web",
-  "intro": "Diseño y adecuaciones en la página web de una de las cervezas más emblemáticas del país.",
-  "problem": "El sitio necesitaba actualizarse sin perder la esencia de la marca.",
-  "solution": "Diseño y desarrollo de nuevas secciones y ajustes de experiencia.",
-  "result": "",
-  "stack": "Diseño y desarrollo web."
- },
- {
-  "id": "eternal",
-  "name": "Eternal",
-  "client": "Eternal Store",
-  "kind": "Rediseño web y tienda digital",
-  "year": 2026,
-  "o": "c",
-  "cats": [
-   "ecommerce",
-   "web"
-  ],
-  "img": "",
-  "tipo": [
-   "#DFE8DA",
-   "#0E0E10"
-  ],
-  "estado": "En desarrollo",
-  "gal": [],
-  "video": "",
-  "demo": "",
-  "size": "",
-  "chip": "Tienda en WordPress",
-  "intro": "Rediseño desde cero de la web y la tienda digital de la marca.",
-  "problem": "La tienda no reflejaba la marca ni facilitaba la compra.",
-  "solution": "Nuevo diseño, catálogo y proceso de compra en WordPress.",
-  "result": "En desarrollo",
-  "stack": "WordPress y WooCommerce."
- }
+	{
+		"id": "seeds",
+		"name": "Seeds",
+		"client": "Seeds Wellness",
+		"kind": "Tienda online y ERP",
+		"year": 2026,
+		"o": "c",
+		"cats": [
+			"ecommerce",
+			"erp",
+			"software"
+		],
+		"img": "p/seeds-0.jpg",
+		"shot": "",
+		"gal": [
+			"p/seeds-det.jpg",
+			"p/seeds-1.jpg",
+			"p/seeds-2.jpg"
+		],
+		"video": "vid-seeds.mp4",
+		"size": "ancha",
+		"chip": "De 2M a 30–40M al mes",
+		"intro": "Marca de bienestar en su primer año, sin estructura digital ni sistema comercial. Hicimos marca, tecnología y adquisición al mismo tiempo.",
+		"problem": "Ventas, inventario y seguimiento de clientes vivían en hojas de cálculo y conversaciones de WhatsApp.",
+		"solution": "Tienda online conectada a un ERP con inventario en tiempo real, pedidos, clientes y reportes en un solo lugar.",
+		"result": "De 2M a 30–40M en ventas al mes",
+		"stack": "Django, React y AWS. Integración con pasarela de pagos y WhatsApp.",
+		"demo_url": "https://erp.seedscol.com/"
+	},
+	{
+		"id": "crm",
+		"name": "CRM de Campo",
+		"client": "Natural Control",
+		"kind": "Fuerza de ventas con GPS",
+		"year": 2026,
+		"o": "t",
+		"cats": [
+			"software",
+			"apps"
+		],
+		"img": "p/crm-0.jpg",
+		"shot": "",
+		"gal": [
+			"p/crm-det.jpg",
+			"p/crm-1.jpg"
+		],
+		"video": "vid-crm.mp4",
+		"size": "",
+		"chip": "Visitas verificadas por GPS",
+		"intro": "Una fuerza de ventas en la calle y una gerencia que no veía qué pasaba. Construimos el sistema que conecta a los dos.",
+		"problem": "La gerencia no tenía visibilidad de las visitas ni de los pedidos tomados en calle.",
+		"solution": "App para vendedores con verificación GPS, web administrativa y un tablero de gerencia en vivo integrado al ERP.",
+		"result": "",
+		"stack": "App móvil, web administrativa, GPS e integración con ERP.",
+		"demo_url": "https://16.59.184.151.sslip.io/portal/"
+	},
+	{
+		"id": "insivo",
+		"name": "Insivo",
+		"client": "Clínicas de medicina estética",
+		"kind": "ERP y CRM para clínicas",
+		"year": 2026,
+		"o": "t",
+		"cats": [
+			"erp",
+			"software"
+		],
+		"img": "p/insivo-0.jpg",
+		"shot": "",
+		"gal": [],
+		"video": "vid-insivo.mp4",
+		"size": "media",
+		"chip": "Agenda, historia y ventas",
+		"intro": "Una sola plataforma para agendar, atender, vender y fidelizar pacientes.",
+		"problem": "Agenda, historia clínica y ventas en sistemas separados que no se hablaban.",
+		"solution": "Agenda, historia clínica, ventas y recordatorios automáticos por WhatsApp en un mismo lugar.",
+		"result": "",
+		"stack": "Web, WhatsApp y pagos.",
+		"demo_url": "http://44.214.163.14/"
+	},
+	{
+		"id": "seeds-pauta",
+		"name": "Pauta y crecimiento",
+		"client": "Seeds Wellness",
+		"kind": "Campañas en Meta, Google y TikTok",
+		"year": 2026,
+		"o": "e",
+		"cats": [
+			"marketing"
+		],
+		"img": "p/ads.jpg",
+		"shot": "",
+		"gal": [
+			"p/ads-det.jpg"
+		],
+		"video": "",
+		"size": "media",
+		"chip": "Costo por cliente a la vista",
+		"intro": "La pauta dejó de ser un gasto a ciegas: cada peso invertido se conecta con ventas reales en el ERP.",
+		"problem": "Las campañas se medían por likes y nadie sabía cuánto vendían.",
+		"solution": "Estrategia por embudo, contenido propio, campañas en Meta, Google y TikTok y un tablero semanal que cruza inversión con ventas.",
+		"result": "",
+		"stack": "Meta Ads, Google Ads, TikTok Ads y tablero propio. Cifras de las imágenes: datos de demostración."
+	},
+	{
+		"id": "hab",
+		"name": "HAB",
+		"client": "HAB Desarrolladores",
+		"kind": "Proptech con asesor de IA",
+		"year": 2026,
+		"o": "e",
+		"cats": [
+			"software",
+			"ia",
+			"marca",
+			"web"
+		],
+		"img": "p/hab-0.jpg",
+		"shot": "",
+		"gal": [],
+		"video": "vid-hab.mp4",
+		"size": "",
+		"chip": "Asesor con IA 24/7",
+		"intro": "Una constructora que operaba sin sistema de adquisición. Hicimos marca, web, ERP y un asesor con IA.",
+		"problem": "Operaba sin un sistema de adquisición ni de gestión comercial sólido.",
+		"solution": "Marca, sitio web, ERP, CRM de leads y un asesor inmobiliario con IA que atiende por WhatsApp.",
+		"result": "Sistema de adquisición funcionando",
+		"stack": "Web, IA conversacional y ERP.",
+		"demo_url": "https://app.hab.com.co/"
+	},
+	{
+		"id": "raii",
+		"name": "RAII",
+		"client": "RAII",
+		"kind": "Apps de pasajero y conductor",
+		"year": 2026,
+		"o": "t",
+		"cats": [
+			"apps"
+		],
+		"img": "p/raii-cover.jpg",
+		"shot": "s-raii-0.jpg",
+		"gal": [],
+		"video": "vid-raii.mp4",
+		"mobile": true,
+		"size": "",
+		"chip": "iOS y Android",
+		"intro": "Un servicio de movilidad con dos experiencias distintas sobre un mismo backend.",
+		"problem": "Lanzar app de pasajero y app de conductor al mismo tiempo, con operación centralizada.",
+		"solution": "Apps iOS y Android para pasajero y conductor, más un panel web de operación.",
+		"result": "",
+		"stack": "iOS, Android y panel web."
+	},
+	{
+		"id": "seeds-retencion",
+		"name": "Recompra automática",
+		"client": "Seeds Wellness",
+		"kind": "Flujos de WhatsApp conectados al ERP",
+		"year": 2026,
+		"o": "t",
+		"cats": [
+			"ia",
+			"software"
+		],
+		"img": "p/flujo.jpg",
+		"shot": "",
+		"gal": [],
+		"video": "",
+		"size": "media",
+		"chip": "Seguimiento sin intervención",
+		"intro": "Cada clienta recibe el mensaje correcto en el momento en que se le acaba el producto.",
+		"problem": "Las clientas compraban una vez y nadie les hacía seguimiento.",
+		"solution": "Flujos automáticos por WhatsApp que se disparan desde el ERP según el producto y el tiempo de uso.",
+		"result": "",
+		"stack": "ERP Seeds, WhatsApp Business API y reglas de segmentación."
+	},
+	{
+		"id": "reto",
+		"name": "Reto 30 días",
+		"client": "Seeds Wellness",
+		"kind": "App de acompañamiento",
+		"year": 2026,
+		"o": "c",
+		"cats": [
+			"apps"
+		],
+		"img": "p/reto-cover.jpg",
+		"shot": "s-reto-0.jpg",
+		"gal": [],
+		"video": "vid-reto.mp4",
+		"mobile": true,
+		"size": "media",
+		"chip": "Más calma, menos azúcar",
+		"intro": "Acompañar a las clientas después de la compra con un reto diario: «Más calma, menos azúcar».",
+		"problem": "Las clientas compraban una vez y no volvían.",
+		"solution": "Una PWA con retos diarios, recordatorios y progreso, conectada al ERP de Seeds para ofrecer recompras.",
+		"result": "",
+		"stack": "PWA conectada al ERP de Seeds.",
+		"demo_url": "https://reto.seedscol.com/"
+	},
+	{
+		"id": "asistente",
+		"name": "Asistente de ventas",
+		"client": "3 Orillas",
+		"kind": "IA que atiende y agenda por WhatsApp",
+		"year": 2026,
+		"o": "t",
+		"cats": [
+			"ia"
+		],
+		"img": "p/chat.jpg",
+		"shot": "",
+		"gal": [],
+		"video": "",
+		"size": "",
+		"chip": "Califica y agenda solo",
+		"intro": "Nuestro propio asistente: responde, entiende qué necesita cada persona, muestra referentes y agenda la llamada.",
+		"problem": "Los mensajes llegaban a cualquier hora y muchos se enfriaban antes de recibir respuesta.",
+		"solution": "Un asistente con IA entrenado con nuestros servicios y casos, conectado al calendario y al CRM.",
+		"result": "",
+		"stack": "IA conversacional, WhatsApp, calendario y CRM."
+	},
+	{
+		"id": "marca-3o",
+		"name": "Identidad 3 Orillas",
+		"client": "3 Orillas",
+		"kind": "Manual de marca y piezas",
+		"year": 2026,
+		"o": "c",
+		"cats": [
+			"marca"
+		],
+		"img": "p/marca-20.jpg",
+		"shot": "",
+		"gal": [
+			"p/marca-21.jpg",
+			"p/marca-19.jpg",
+			"p/marca-22.jpg",
+			"p/marca-23.jpg"
+		],
+		"video": "",
+		"size": "ancha",
+		"chip": "Estrategia, creatividad y tecnología",
+		"intro": "Nuestra propia identidad: tres orillas, un solo destino. Logotipo, retrato en blanco y negro, cristal y una onda que une todo.",
+		"problem": "La marca no comunicaba lo que el estudio hace ni para quién.",
+		"solution": "Manual de marca con logotipo, paleta, tipografía, fotografía y aplicaciones: web, papelería, carteles y redes.",
+		"result": "Un sistema que se aplica en todos los canales",
+		"stack": "Instrument Serif, Inter Tight, retrato B/N y cristal."
+	},
+	{
+		"id": "tatem",
+		"name": "Tatem",
+		"client": "Tatem",
+		"kind": "Rebranding, web y reservas",
+		"year": 2025,
+		"o": "c",
+		"cats": [
+			"marca",
+			"web",
+			"ecommerce"
+		],
+		"img": "",
+		"tipo": [
+			"#1F1F23",
+			"#F5F2EC"
+		],
+		"gal": [],
+		"video": "",
+		"size": "",
+		"chip": "Marca + tecnología",
+		"intro": "Una marca con potencial y sin estructura digital. Del rebranding al ecosistema completo.",
+		"problem": "La marca no tenía una base digital sólida para crecer.",
+		"solution": "Rebranding, nuevo producto, sitio web con reservas, e-commerce y SEO/SEM.",
+		"result": "Ecosistema digital completo",
+		"stack": "Marca, web, reservas, e-commerce, SEO y SEM."
+	},
+	{
+		"id": "cordilleras",
+		"name": "3 Cordilleras",
+		"client": "Cervecería 3 Cordilleras",
+		"kind": "Diseño y adecuaciones web",
+		"year": 2025,
+		"o": "c",
+		"cats": [
+			"web"
+		],
+		"img": "",
+		"tipo": [
+			"#C9B38A",
+			"#0E0E10"
+		],
+		"gal": [],
+		"video": "",
+		"size": "",
+		"chip": "Diseño web",
+		"intro": "Diseño y adecuaciones en la página web de una de las cervezas más emblemáticas del país.",
+		"problem": "El sitio necesitaba actualizarse sin perder la esencia de la marca.",
+		"solution": "Diseño y desarrollo de nuevas secciones y ajustes de experiencia.",
+		"result": "",
+		"stack": "Diseño y desarrollo web."
+	},
+	{
+		"id": "eternal",
+		"name": "Eternal",
+		"client": "Eternal Store",
+		"kind": "Rediseño web y tienda digital",
+		"year": 2026,
+		"o": "c",
+		"cats": [
+			"ecommerce",
+			"web"
+		],
+		"img": "",
+		"tipo": [
+			"#DFE8DA",
+			"#0E0E10"
+		],
+		"estado": "En desarrollo",
+		"gal": [],
+		"video": "",
+		"size": "",
+		"chip": "Tienda en WordPress",
+		"intro": "Rediseño desde cero de la web y la tienda digital de la marca.",
+		"problem": "La tienda no reflejaba la marca ni facilitaba la compra.",
+		"solution": "Nuevo diseño, catálogo y proceso de compra en WordPress.",
+		"result": "En desarrollo",
+		"stack": "WordPress y WooCommerce."
+	},
+	{
+		"id": "valfora-erp",
+		"name": "Valfora ERP",
+		"client": "Valfora Holdings",
+		"kind": "ERP empresarial",
+		"year": 2026,
+		"o": "t",
+		"cats": [
+			"software",
+			"erp"
+		],
+		"intro": "Sistema ERP de Valfora Holdings, en producción.",
+		"estado": "Ficha en preparación",
+		"tipo": [
+			"#0E0E10",
+			"#F5F2EC"
+		],
+		"demo_url": "https://erp.valforaholdings.com/"
+	},
+	{
+		"id": "wanti",
+		"name": "Wanti",
+		"client": "Wanti",
+		"kind": "Marketplace de demanda",
+		"year": 2026,
+		"o": "t",
+		"cats": [
+			"software",
+			"ecommerce"
+		],
+		"intro": "Publicas lo que buscas y recibes propuestas de vendedores.",
+		"estado": "Ficha en preparación",
+		"tipo": [
+			"#DCE6F5",
+			"#0E0E10"
+		],
+		"demo_url": "https://app.wantiapp.com/"
+	}
 ]

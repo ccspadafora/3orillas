@@ -87,7 +87,10 @@ final class TOR_Proyectos {
 			'captura_id'  => array( 'Captura pequeña (tarjetas y Demo Lab). Si falta, se usa la imagen destacada.', 'media' ),
 			'galeria_ids' => array( 'Galería del caso', 'gallery' ),
 			'video_id'    => array( 'Video corto (MP4)', 'video' ),
-			'demo'        => array( 'Demo navegable', 'select', array( '' => '— Sin demo —', 'seeds' => 'Seeds', 'crm' => 'CRM de Campo', 'insivo' => 'Insivo', 'hab' => 'HAB', 'raii' => 'RAII (app)', 'reto' => 'Reto 30 días (app)' ) ),
+			'demo_url'     => array( 'Demo Lab · URL de la plataforma (https). Vacío = no aparece en el Demo Lab', 'url' ),
+			'demo_usuario' => array( 'Demo Lab · Usuario de prueba (se muestra en público)', 'text' ),
+			'demo_clave'   => array( 'Demo Lab · Clave de prueba (se muestra en público: usa un usuario con datos de prueba y permisos mínimos)', 'text' ),
+			'demo_nota'    => array( 'Demo Lab · Nota (ej.: Los datos se reinician cada noche)', 'text' ),
 			'movil'       => array( 'Es una app móvil (se muestra en un celular)', 'checkbox' ),
 			'tamano'      => array( 'Tamaño en la cuadrícula', 'select', array( '' => 'Automático', 'ancha' => 'Ancha', 'media' => 'Media' ) ),
 			'estado'      => array( 'Etiqueta de estado (ej.: En desarrollo)', 'text' ),
@@ -146,6 +149,9 @@ final class TOR_Proyectos {
 				case 'color':
 					echo '<input type="text" id="' . esc_attr( $id ) . '" name="' . esc_attr( $name ) . '" value="' . esc_attr( (string) $valor ) . '" placeholder="#0E0E10" class="regular-text">';
 					break;
+				case 'url':
+					echo '<input type="url" id="' . esc_attr( $id ) . '" name="' . esc_attr( $name ) . '" value="' . esc_attr( (string) $valor ) . '" placeholder="https://" class="large-text">';
+					break;
 				case 'media':
 				case 'video':
 				case 'gallery':
@@ -197,6 +203,9 @@ final class TOR_Proyectos {
 					break;
 				case 'color':
 					$v = (string) sanitize_hex_color( (string) $crudo );
+					break;
+				case 'url':
+					$v = esc_url_raw( trim( (string) $crudo ), array( 'http', 'https' ) );
 					break;
 				case 'media':
 				case 'video':
@@ -286,7 +295,11 @@ final class TOR_Proyectos {
 				'shot'     => $cap ? (string) wp_get_attachment_image_url( $cap, 'full' ) : $img,
 				'gal'      => array_values( array_filter( array_map( static fn( $g ) => (string) wp_get_attachment_image_url( $g, 'full' ), $gal ) ) ),
 				'video'    => $vid ? (string) wp_get_attachment_url( $vid ) : '',
-				'demo'     => (string) self::meta( $p->ID, 'demo' ),
+				'demo'     => self::meta( $p->ID, 'demo_url' ) ? $p->post_name : '',
+				'demoUrl'  => (string) self::meta( $p->ID, 'demo_url' ),
+				'demoUser' => (string) self::meta( $p->ID, 'demo_usuario' ),
+				'demoPass' => (string) self::meta( $p->ID, 'demo_clave' ),
+				'demoNota' => (string) self::meta( $p->ID, 'demo_nota' ),
 				'mobile'   => '1' === (string) self::meta( $p->ID, 'movil' ),
 				'size'     => (string) self::meta( $p->ID, 'tamano' ),
 				'chip'     => (string) self::meta( $p->ID, 'chip' ),

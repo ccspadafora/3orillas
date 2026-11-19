@@ -85,7 +85,7 @@ final class TOR_CLI {
 				'solucion'  => $p['solution'] ?? '',
 				'resultado' => $p['result'] ?? '',
 				'stack'     => $p['stack'] ?? '',
-				'demo'      => $p['demo'] ?? '',
+				'demo_url'  => $p['demo_url'] ?? '',
 				'movil'     => empty( $p['mobile'] ) ? '' : '1',
 				'tamano'    => $p['size'] ?? '',
 				'estado'    => $p['estado'] ?? '',

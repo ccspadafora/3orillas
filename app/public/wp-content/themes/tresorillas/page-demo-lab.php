@@ -26,17 +26,17 @@ foreach ( $tor_demos as $tor_p ) {
 		array(
 			'migas'     => array( array( 'Inicio', home_url( '/' ) ), array( 'Demo Lab' ) ),
 			'o'         => 't',
-			'tag'       => count( $tor_demos ) . ' plataformas reales · datos de prueba',
+			'tag'       => count( $tor_demos ) . ' plataformas reales · usuario de prueba',
 			'eyebrow'   => 'Demo Lab',
 			'h1'        => 'No te lo contamos. <em>Entra y navégalo.</em>',
-			'intro'     => 'Plataformas que construimos para clientes reales, con datos ficticios. Entras con el usuario de prueba y las recorres a tu ritmo, antes de hablar con nosotros.',
+			'intro'     => 'Plataformas que construimos para clientes reales, en producción. Entras con un usuario de prueba y las recorres a tu ritmo, antes de hablar con nosotros.',
 			'acciones'  => array(
 				array( 'Entrar al laboratorio', '#laboratorio', 'marfil' ),
 				array( 'Recorrido guiado por Zoom', '', 'llamar' ),
 			),
 			'ciclo'     => $tor_ciclo,
 			'retrato'   => 'retrato-1.jpg',
-			'flotantes' => array( array( count( $tor_demos ) . ' demos', 'web y app móvil' ), array( 'Sin registro', 'el usuario ya está escrito' ), array( '2 min', 'para recorrer cada una' ) ),
+			'flotantes' => array( array( count( $tor_demos ) . ' demos', 'web y app móvil' ), array( 'Sin registro', 'usuario de prueba incluido' ), array( '2 min', 'para recorrer cada una' ) ),
 			'cinta'     => array_map( static fn( $p ) => $p['name'] . ' · ' . $p['kind'], $tor_demos ),
 		)
 	);
@@ -44,8 +44,8 @@ foreach ( $tor_demos as $tor_p ) {
 
 	<section class="tor-lab-pasos"><div class="wrap">
 		<ol class="tor-pasos">
-			<li data-luz><span class="n">01</span><b>Elige una plataforma</b><span>ERP, CRM, tienda, apps móviles.</span></li>
-			<li data-luz><span class="n">02</span><b>Entra con el usuario demo</b><span>Las credenciales ya están escritas.</span></li>
+			<li data-luz><span class="n">01</span><b>Elige una plataforma</b><span>ERP, CRM, marketplace, apps.</span></li>
+			<li data-luz><span class="n">02</span><b>Copia el usuario de prueba</b><span>Y abre la plataforma real en otra pestaña.</span></li>
 			<li data-luz><span class="n">03</span><b>Recórrela a tu ritmo</b><span>Si te gusta, la adaptamos a tu negocio.</span></li>
 		</ol>
 	</div></section>

@@ -145,13 +145,13 @@ $tor_crm   = tor_proyecto( 'crm' );
 		<div style="display:flex;flex-direction:column;gap:22px;position:relative;">
 			<p class="etq">Demo Lab</p>
 			<h2 class="h-l">No te lo contamos. <em>Entra y navégalo.</em></h2>
-			<p class="body">Seis plataformas que construimos, con datos de prueba. Inicias sesión con el usuario demo y las recorres a tu ritmo, antes de hablar con nosotros.</p>
+			<p class="body">Plataformas reales que construimos, en producción. Entras con un usuario de prueba y las recorres a tu ritmo, antes de hablar con nosotros.</p>
 			<div style="display:flex;gap:10px;flex-wrap:wrap;"><a href="<?php echo esc_url( tor_url( 'demo-lab' ) ); ?>" class="btn btn-marfil">Abrir el Demo Lab</a><button class="btn btn-borde" type="button" data-llamar>Recorrido guiado por Zoom</button></div>
 		</div>
 		<div class="laptop">
 			<div class="pantalla"><video src="<?php echo esc_url( $tor_seeds && $tor_seeds['video'] ? $tor_seeds['video'] : tor_m( 'vid-seeds.mp4' ) ); ?>" autoplay muted loop playsinline aria-label="Recorrido por el ERP de Seeds"></video></div>
 			<div class="base"></div>
-			<div class="credencial cristal"><span class="t" style="font:600 13.5px/1.2 var(--sans);">Acceso de prueba</span><span class="small">Usuario <code>demo@seeds.co</code></span><span class="small">Clave <code>Demo2026</code></span><a href="<?php echo esc_url( add_query_arg( 'app', 'seeds', tor_url( 'demo-lab' ) ) ); ?>" class="btn btn-tinta btn-sm" style="align-self:flex-start;">Iniciar sesión</a></div>
+			<div class="credencial cristal"><span class="t" style="font:600 13.5px/1.2 var(--sans);">Acceso de prueba</span><?php if ( $tor_seeds && $tor_seeds['demoUser'] ) : ?><span class="small">Usuario <code><?php echo esc_html( $tor_seeds['demoUser'] ); ?></code></span><?php if ( $tor_seeds['demoPass'] ) : ?><span class="small">Clave <code><?php echo esc_html( $tor_seeds['demoPass'] ); ?></code></span><?php endif; ?><?php else : ?><span class="small">Usuario de prueba incluido en el Demo Lab.</span><?php endif; ?><a href="<?php echo esc_url( add_query_arg( 'app', 'seeds', tor_url( 'demo-lab' ) ) . '#laboratorio' ); ?>" class="btn btn-tinta btn-sm" style="align-self:flex-start;">Entrar a Seeds</a></div>
 		</div>
 	</div>
 </section>
