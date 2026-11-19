@@ -127,7 +127,8 @@
 		"solution": "Marca, sitio web, ERP, CRM de leads y un asesor inmobiliario con IA que atiende por WhatsApp.",
 		"result": "Sistema de adquisición funcionando",
 		"stack": "Web, IA conversacional y ERP.",
-		"demo_url": "https://app.hab.com.co/"
+		"demo_url": "https://app.hab.com.co/",
+		"demo_externo": true
 	},
 	{
 		"id": "raii",
@@ -344,7 +345,8 @@
 			"#0E0E10",
 			"#F5F2EC"
 		],
-		"demo_url": "https://erp.valforaholdings.com/"
+		"demo_url": "https://erp.valforaholdings.com/",
+		"demo_externo": true
 	},
 	{
 		"id": "wanti",
@@ -363,6 +365,7 @@
 			"#DCE6F5",
 			"#0E0E10"
 		],
-		"demo_url": "https://app.wantiapp.com/"
+		"demo_url": "https://app.wantiapp.com/",
+		"demo_externo": true
 	}
 ]
