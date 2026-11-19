@@ -83,6 +83,7 @@ function tor_datos_js(): array {
 			'embebida' => ! empty( $aj['llamada_embebida'] ),
 			'hIni'     => (int) ( $aj['hora_inicio'] ?? 8 ),
 			'hFin'     => (int) ( $aj['hora_fin'] ?? 18 ),
+			'zoom'     => class_exists( 'TOR_Zoom' ) && TOR_Zoom::activo(),
 		),
 	);
 }

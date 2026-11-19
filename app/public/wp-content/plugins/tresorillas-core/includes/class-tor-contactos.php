@@ -60,6 +60,7 @@ final class TOR_Contactos {
 			'linea'    => '¿Qué necesita?',
 			'idea'     => 'Idea escrita en el inicio',
 			'mensaje'  => 'Mensaje',
+			'reunion'  => 'Videollamada',
 			'pagina'   => 'Página',
 			'consent'  => 'Autorización de datos',
 		);
@@ -133,6 +134,20 @@ final class TOR_Contactos {
 			$d['pagina'] = '';
 		}
 
+		if ( ! self::guardar( $d ) ) {
+			wp_send_json_error( array( 'codigo' => 'guardar', 'msg' => 'No pudimos guardar tu mensaje. Escríbenos por WhatsApp.' ), 500 );
+		}
+
+		wp_send_json_success( array( 'msg' => 'ok' ) );
+	}
+
+	/**
+	 * Límite de envíos por IP. La IP solo se usa en forma de hash y no se guarda en el contacto.
+	 */
+	/**
+	 * Guarda un contacto ya sanitizado y avisa por correo. Devuelve el ID o 0.
+	 */
+	public static function guardar( array $d ): int {
 		$titulo = trim( ( $d['nombre'] ?: $d['telefono'] ) . ' — ' . $d['origen'] );
 		$id     = wp_insert_post(
 			array(
@@ -143,23 +158,18 @@ final class TOR_Contactos {
 			true
 		);
 		if ( is_wp_error( $id ) ) {
-			wp_send_json_error( array( 'codigo' => 'guardar', 'msg' => 'No pudimos guardar tu mensaje. Escríbenos por WhatsApp.' ), 500 );
+			return 0;
 		}
 		foreach ( $d as $k => $v ) {
 			if ( '' !== $v ) {
 				update_post_meta( $id, '_tor_' . $k, $v );
 			}
 		}
-
 		self::avisar( (int) $id, $d );
-
-		wp_send_json_success( array( 'msg' => 'ok' ) );
+		return (int) $id;
 	}
 
-	/**
-	 * Límite de envíos por IP. La IP solo se usa en forma de hash y no se guarda en el contacto.
-	 */
-	private static function dentro_del_limite(): bool {
+	public static function dentro_del_limite(): bool {
 		$ip    = sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ?? '' ) );
 		$clave = 'tor_lim_' . md5( $ip . wp_salt( 'nonce' ) );
 		$n     = (int) get_transient( $clave );
@@ -183,7 +193,11 @@ final class TOR_Contactos {
 		$lineas[] = '';
 		$lineas[] = 'Ver en WordPress: ' . admin_url( 'post.php?post=' . $id . '&action=edit' );
 
-		$asunto = sprintf( '[3 Orillas] %s: %s', 'Solicitud sobre datos personales' === $d['origen'] ? 'Solicitud de datos (responder en máx. 10 días hábiles)' : 'Nuevo contacto', $d['nombre'] ?: $d['telefono'] );
+		if ( ! empty( $d['reunion'] ) ) {
+			$asunto = sprintf( '[3 Orillas] Videollamada agendada: %s · %s', $d['nombre'], strtok( $d['reunion'], '·' ) );
+		} else {
+			$asunto = sprintf( '[3 Orillas] %s: %s', 'Solicitud sobre datos personales' === $d['origen'] ? 'Solicitud de datos (responder en máx. 10 días hábiles)' : 'Nuevo contacto', $d['nombre'] ?: $d['telefono'] );
+		}
 		wp_mail( TOR_Ajustes::correo(), wp_specialchars_decode( $asunto ), implode( "\n", $lineas ) );
 	}
 
