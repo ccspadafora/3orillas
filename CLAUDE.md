@@ -60,9 +60,12 @@ Repositorio: https://github.com/ccspadafora/3orillas (público; rama `main`). So
   - seeds → erp.seedscol.com · crm → 16.59.184.151.sslip.io/portal · insivo → 44.214.163.14 (Clínica Sabana Norte; supuesto: es Insivo) · hab → app.hab.com.co · reto → reto.seedscol.com · valfora-erp → erp.valforaholdings.com · wanti → app.wantiapp.com.
   - Valfora ERP y Wanti son proyectos nuevos con ficha mínima («Ficha en preparación»): completar textos e imágenes en el admin.
   - Las credenciales se escriben en el admin, no en el código ni en el repositorio.
+  - **Embebidas en el sitio** (iframe en sandbox, con recargar, pantalla completa y abrir aparte): Seeds, CRM de Campo, Reto (en marco de celular) e Insivo (solo mientras el sitio sea http; en producción https necesita que Insivo tenga HTTPS). HAB, Valfora ERP y Wanti tienen marcado «Abrir siempre en pestaña nueva» porque envían `X-Frame-Options: DENY`; para embeberlas, su servidor debe enviar `Content-Security-Policy: frame-ancestors 'self' https://3orillas.com https://www.3orillas.com` (y quitar X-Frame-Options) y luego desmarcar la casilla en el admin.
+  - Las apps guardan la sesión con token en localStorage (funciona en iframe en todos los navegadores). El CRM de Campo además usa cookies (`credentials: include`): en Safari puede pedir abrirlo aparte.
 
 ## Pendientes antes de producción
 - Zoom: crear la app Server-to-Server OAuth y poner las 4 constantes en `wp-config.php` del servidor.
+- Seeds (erp.seedscol.com) muestra en producción el correo `admin@seeds.co` y una contraseña ya escritos en su inicio de sesión: quitarlos de la app y usar un usuario de prueba con permisos mínimos.
 - Demo Lab: cargar usuario y clave de prueba de cada plataforma en el admin. Confirmar que cada usuario de prueba solo ve datos ficticios y tiene permisos mínimos (Clínica Sabana Norte maneja datos de salud). Poner HTTPS a 44.214.163.14.
 - Configurar en Ajustes → 3 Orillas: correo de contactos y enlace de videollamada (sin enlace, los botones abren WhatsApp).
 - Completar en la página "Política de tratamiento de datos" el NIT y la fecha de vigencia (razón social y correo ya están: Valfora Holdings S.A.S., valforaholdings.sas@gmail.com).
