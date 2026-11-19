@@ -2,6 +2,8 @@
 
 Sitio del estudio 3 Orillas. Producción: 3orillas.com, en el servidor `3-orillas` (ver `../SERVIDORES.md`). Hoy producción usa Hello Elementor + Elementor Pro; este proyecto lo reemplaza por un tema y un plugin propios.
 
+Repositorio: https://github.com/ccspadafora/3orillas (público; rama `main`). Solo versiona el tema, el plugin, README y este archivo (ver `.gitignore`). Commits con el correo noreply de GitHub.
+
 ## Fuente de verdad del diseño (carpeta `../3Orillas/3 Orillas/`)
 - `index.html`: diseño completo (CSS, contenido y JavaScript de todas las vistas).
 - `demo.html`: demos navegables que se cargan en iframe dentro del Demo Lab.
