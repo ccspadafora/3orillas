@@ -1,0 +1,19 @@
+# Solo se versionan el tema y el plugin propios del sitio y la documentación.
+# WordPress, plugins de terceros, uploads, wp-config.php, base de datos, conf/ y logs/ quedan fuera.
+/*
+!/.gitignore
+!/README.md
+!/CLAUDE.md
+!/app/
+/app/*
+!/app/public/
+/app/public/*
+!/app/public/wp-content/
+/app/public/wp-content/*
+!/app/public/wp-content/themes/
+/app/public/wp-content/themes/*
+!/app/public/wp-content/themes/tresorillas/
+!/app/public/wp-content/plugins/
+/app/public/wp-content/plugins/*
+!/app/public/wp-content/plugins/tresorillas-core/
+.DS_Store
