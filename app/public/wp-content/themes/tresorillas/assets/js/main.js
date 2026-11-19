@@ -310,13 +310,23 @@ if (labWrap) {
     let h = '';
     if (labTab === 'demo') {
       let host = p.demoUrl; try { host = new URL(p.demoUrl).host; } catch (e) { /* URL sin formato */ }
-      const prev = p.tipo ? `<div class="tipo" style="background:${esc(p.tipo[0])};color:${esc(p.tipo[1])};"><span>${esc(p.client)}</span><b>${esc(p.name)}</b><span>${esc(p.kind)}</span></div>` : (p.video && !p.mobile ? `<video src="${esc(p.video)}" poster="${esc(p.img)}" autoplay muted loop playsinline aria-hidden="true"></video>` : `<img src="${esc(p.shot || p.img)}" alt="">`);
-      const entrar = `<div class="lab-entrar"><a class="btn btn-marfil" href="${esc(p.demoUrl)}" target="_blank" rel="noopener">Abrir ${esc(p.name)} ${svgFlecha}</a><span>Se abre en una pestaña nueva</span></div>`;
-      h = p.mobile && p.video ? `<div class="lab-acceso movil"><div class="escena-cel"><div class="celular"><video src="${esc(p.video)}" autoplay muted loop playsinline aria-hidden="true"></video></div></div>${entrar}</div>` : `<div class="navegador lab-acceso"><div class="barra"><i></i><i></i><i></i><span>${esc(host)}</span></div><div class="lab-previa">${prev}${entrar}</div></div>`;
+      // Se embebe salvo que la plataforma no lo permita, o que sea http dentro de un sitio https (el navegador lo bloquea).
+      const embebe = !p.demoExt && !(location.protocol === 'https:' && /^http:/i.test(p.demoUrl));
       const cp = v => `<code>${esc(v)}</code><button type="button" class="lab-copiar" data-copiar="${esc(v)}">Copiar</button>`;
-      $('#labCred').innerHTML = p.demoUser
-        ? `<span class="lab-llave">Acceso de prueba</span><span>Usuario ${cp(p.demoUser)}</span>${p.demoPass ? `<span>Clave ${cp(p.demoPass)}</span>` : ''}${p.demoNota ? `<span class="tenue">${esc(p.demoNota)}</span>` : ''}${/^http:/i.test(p.demoUrl) ? '<span class="lab-aviso">Conexión sin candado (http)</span>' : ''}`
-        : `<span>Te damos un usuario de prueba en minutos.</span><a class="btn btn-borde btn-sm" href="${esc(urlWa('Hola, quiero un usuario de prueba para ' + p.name + '.'))}" target="_blank" rel="noopener">Pedir acceso por WhatsApp</a>`;
+      const llave = p.demoUser
+        ? `<span class="lab-llave">Usuario de prueba</span><span>${cp(p.demoUser)}</span>${p.demoPass ? `<span>Clave ${cp(p.demoPass)}</span>` : ''}${p.demoNota ? `<span class="tenue">${esc(p.demoNota)}</span>` : ''}`
+        : `<span>¿No tienes usuario de prueba?</span><a class="btn btn-borde btn-sm" href="${esc(urlWa('Hola, quiero un usuario de prueba para ' + p.name + '.'))}" target="_blank" rel="noopener">Pedirlo por WhatsApp</a>`;
+      const marco = `<iframe class="lab-webview" src="${esc(p.demoUrl)}" title="${esc(p.name)} en vivo" allow="clipboard-read; clipboard-write; fullscreen; geolocation" referrerpolicy="strict-origin-when-cross-origin" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox allow-downloads allow-modals"></iframe><div class="lab-carga"><span class="tor-puntos"><i></i><i></i><i></i></span><span>Abriendo ${esc(p.name)}…</span></div>`;
+      const barra = `<div class="barra"><i></i><i></i><i></i><span>${/^https:/i.test(p.demoUrl) ? '🔒 ' : ''}${esc(host)}</span><button type="button" class="lab-ctrl" data-lab="recargar" title="Recargar" aria-label="Recargar">↻</button><button type="button" class="lab-ctrl" data-lab="completa" title="Pantalla completa" aria-label="Pantalla completa">⤢</button><a class="lab-ctrl" href="${esc(p.demoUrl)}" target="_blank" rel="noopener" title="Abrir en pestaña nueva" aria-label="Abrir en pestaña nueva">↗</a></div>`;
+      if (embebe) {
+        h = p.mobile
+          ? `<div class="lab-acceso movil"><div class="escena-cel"><div class="celular lab-cel">${marco}</div></div><div class="lab-lado-cel"><p class="small tenue">Así se ve en el celular. También puedes abrirla en tu teléfono: ${esc(host)}</p><a class="btn btn-marfil btn-sm" href="${esc(p.demoUrl)}" target="_blank" rel="noopener">Abrir en pestaña nueva ${svgFlecha}</a></div></div>`
+          : `<div class="navegador lab-acceso lab-vivo" id="labVivo">${barra}<div class="lab-pantalla">${marco}</div></div>`;
+      } else {
+        const prev = p.tipo ? `<div class="tipo" style="background:${esc(p.tipo[0])};color:${esc(p.tipo[1])};"><span>${esc(p.client)}</span><b>${esc(p.name)}</b><span>${esc(p.kind)}</span></div>` : (p.video && !p.mobile ? `<video src="${esc(p.video)}" poster="${esc(p.img)}" autoplay muted loop playsinline aria-hidden="true"></video>` : `<img src="${esc(p.shot || p.img)}" alt="">`);
+        h = `<div class="navegador lab-acceso"><div class="barra"><i></i><i></i><i></i><span>${esc(host)}</span></div><div class="lab-previa">${prev}<div class="lab-entrar"><a class="btn btn-marfil" href="${esc(p.demoUrl)}" target="_blank" rel="noopener">Abrir ${esc(p.name)} ${svgFlecha}</a><span>Esta plataforma se abre en una pestaña nueva</span></div></div></div>`;
+      }
+      $('#labCred').innerHTML = llave + (/^http:/i.test(p.demoUrl) ? '<span class="lab-aviso">Conexión sin candado (http)</span>' : '');
     } else if (labTab === 'video' && p.video) {
       h = p.mobile ? `<div class="escena-cel"><div class="celular"><video src="${esc(p.video)}" autoplay muted loop playsinline controls aria-label="Video de ${esc(p.name)}"></video></div></div>` : `<div class="navegador"><div class="barra"><i></i><i></i><i></i><span>Recorrido de ${esc(p.name)}</span></div><video src="${esc(p.video)}" autoplay muted loop playsinline controls aria-label="Video de ${esc(p.name)}"></video></div>`;
       $('#labCred').innerHTML = '';
@@ -325,7 +335,19 @@ if (labWrap) {
       $('#labCred').innerHTML = `<a class="btn btn-borde btn-sm" href="${esc(p.url)}">Ver el caso completo</a>`;
     }
     $('#labEscena').innerHTML = h;
+    const fr = $('#labEscena .lab-webview');
+    if (fr) {
+      const carga = fr.parentNode.querySelector('.lab-carga');
+      const listo = () => { if (carga) carga.classList.add('fuera'); };
+      fr.addEventListener('load', listo); setTimeout(listo, 9000);
+    }
   }
+  $('#labEscena').addEventListener('click', e => {
+    const b = e.target.closest('[data-lab]'); if (!b) return;
+    const fr = $('#labEscena .lab-webview'), vivo = $('#labVivo');
+    if (b.dataset.lab === 'recargar' && fr) { const c = fr.parentNode.querySelector('.lab-carga'); if (c) c.classList.remove('fuera'); fr.src = fr.src; }
+    if (b.dataset.lab === 'completa' && vivo) { if (document.fullscreenElement) document.exitFullscreen(); else if (vivo.requestFullscreen) vivo.requestFullscreen().catch(() => {}); }
+  });
   $('#labLista').addEventListener('click', e => { const b = e.target.closest('[data-app]'); if (b) { labApp = b.dataset.app; labTab = 'demo'; history.replaceState(null, '', urlDemo(labApp)); lab(); } });
   $$('.tabs button').forEach(b => b.addEventListener('click', () => { labTab = b.dataset.tab; lab(); }));
   lab();

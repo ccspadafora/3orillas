@@ -1190,3 +1190,25 @@ section.tor-escena { padding: 6px 16px 0; }
 }
 
 .lab-ini { width: 64px; height: 44px; border-radius: 10px; display: grid; place-items: center; font: 400 24px/1 var(--serif); border: 1px solid rgba(255,255,255,.12); }
+
+/* ===================== Demo Lab: la plataforma real dentro del sitio (webview) ===================== */
+.lab-vivo .barra { gap: 8px; }
+.lab-vivo .barra span { max-width: none; flex: 1; }
+.lab-ctrl { width: 30px; height: 26px; flex: none; display: grid; place-items: center; border-radius: 8px; border: 0; background: rgba(255,255,255,.06); color: #C8C5BE; font-size: 14px; line-height: 1; text-decoration: none; cursor: pointer; transition: background .2s, color .2s; }
+.lab-ctrl:hover { background: rgba(255,255,255,.14); color: var(--marfil); }
+.lab-pantalla { position: relative; height: min(78vh, 820px); min-height: 520px; background: #fff; }
+.lab-webview { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: #fff; }
+.lab-carga { position: absolute; inset: 0; z-index: 2; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; background: #18181b; color: #C8C5BE; font-size: 14px; transition: opacity .5s var(--ease), visibility .5s; }
+.lab-carga.fuera { opacity: 0; visibility: hidden; }
+.lab-vivo:fullscreen { border-radius: 0; display: flex; flex-direction: column; }
+.lab-vivo:fullscreen .lab-pantalla { flex: 1; height: auto; }
+.lab-cel { position: relative; overflow: hidden; }
+.lab-cel .lab-webview { border-radius: inherit; }
+.lab-lado-cel { display: flex; flex-direction: column; gap: 14px; align-items: flex-start; max-width: 34ch; }
+.tor-lab-sala .cred { position: sticky; bottom: 16px; z-index: 3; box-shadow: 0 20px 40px -20px rgba(0,0,0,.8); }
+@media (max-width: 700px) { .lab-pantalla { height: 70vh; min-height: 460px; } }
+/* Celular con la app real: el iframe ocupa la pantalla con proporción de teléfono */
+.lab-cel .lab-webview { position: relative; inset: auto; width: 100%; height: auto; aspect-ratio: 430 / 932; border-radius: 36px; }
+.lab-cel .lab-carga { inset: 10px; border-radius: 36px; }
+.tor-lab-sala .escena-cel { background: rgba(255,255,255,.04); border-color: rgba(255,255,255,.1); }
+.lab-acceso.movil .celular { width: 340px; }
