@@ -521,15 +521,133 @@ function cerrarCotizacion() {
   msgs.scrollTop = msgs.scrollHeight;
 }
 $('#chatForm').addEventListener('submit', e => {
-  e.preventDefault(); const v = $('#chatIn').value.trim().slice(0, 500); if (!v) return; decir(v, true); $('#chatIn').value = '';
+  e.preventDefault(); if (vivo) { vivo.enviar(); return; } const v = $('#chatIn').value.trim().slice(0, 500); if (!v) return; decir(v, true); $('#chatIn').value = '';
   ch.extra = ch.extra ? ch.extra + ' ' + v : v;
   setTimeout(() => {
     decir('Gracias, lo agregamos a tu solicitud. Para hablar ya con una persona, sigue por WhatsApp.');
     const w = document.createElement('a'); w.className = 'opcion'; w.href = urlWa(ch.l ? resumen() : 'Hola, ' + v); w.target = '_blank'; w.rel = 'noopener'; w.innerHTML = `<span><b>Abrir WhatsApp</b><small>Con tu mensaje ya escrito</small></span>${svgFlecha}`; msgs.appendChild(w); msgs.scrollTop = msgs.scrollHeight;
   }, 450);
 });
-function abrirChat() { panel.hidden = false; $('#lanzador').style.visibility = 'hidden'; iniciarChat(); setTimeout(() => $('#chatIn').focus(), 300); }
-function cerrarChat() { panel.hidden = true; $('#lanzador').style.visibility = ''; }
+/* ================= COTIZA EN VIVO conectado al ERP =================
+   Mismo panel del diseño. Flujo del plugin «Orillas Cotiza en vivo»: nombre + WhatsApp (+ autorización),
+   producto de interés y conversación con asesores o IA de la bandeja del ERP. Sesión reanudable (localStorage).
+   Sondeo adaptable: rápido justo después de escribir, lento en reposo, pausado con el panel cerrado o la pestaña oculta. */
+const vivo = (function () {
+  const C = AJ.chat; if (!C) return null;
+  const KEY = 'tor_chat_v1', pie = $('#chatForm');
+  const st = { token: '', msgs: [], ultimo: '', producto: '', abierto: false, enviando: false, timer: null, actividad: 0, pausa: 0 };
+  try { const g = JSON.parse(localStorage.getItem(KEY) || 'null'); if (g && g.token) st.token = g.token; } catch (e) { /* sin almacenamiento */ }
+  const guardar = t => { st.token = t || ''; try { t ? localStorage.setItem(KEY, JSON.stringify({ token: t, at: Date.now() })) : localStorage.removeItem(KEY); } catch (e) { /* sin almacenamiento */ } };
+  const uid = () => 'ww-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 8);
+
+  const api = async (ruta, metodo, cuerpo) => {
+    const ir = () => fetch(C.api + ruta, { method: metodo || 'GET', headers: { 'Content-Type': 'application/json', 'X-TOR-Nonce': TOR.nonce || '' }, body: cuerpo ? JSON.stringify(cuerpo) : undefined, credentials: 'same-origin', cache: 'no-store' });
+    let r = await ir();
+    if (r.status === 403) { try { const n = await fetch(TOR.ajax + '?action=tor_nonce', { credentials: 'same-origin' }).then(x => x.json()); if (n && n.data && n.data.nonce) { TOR.nonce = n.data.nonce; r = await ir(); } } catch (e) { /* sin red */ } }
+    let j = {}; try { j = await r.json(); } catch (e) { /* vacío */ }
+    if (!r.ok) { const err = new Error((j && j.message) || 'No pudimos conectar con el chat.'); err.status = r.status; throw err; }
+    return j;
+  };
+
+  const etiqueta = m => m.quien === 'user' ? 'Asesor · 3 Orillas' : (m.quien === 'ai_bot' ? 'Asistente IA' : '');
+  const pintar = () => {
+    msgs.innerHTML = '';
+    st.msgs.forEach(m => {
+      const d = document.createElement('div'); d.className = 'msg' + (m.quien === 'contact' ? ' yo' : ' de-' + m.quien) + (m.local ? ' enviando' : '');
+      const et = etiqueta(m); if (et) { const s = document.createElement('span'); s.className = 'msg-quien'; s.textContent = et; d.appendChild(s); }
+      d.appendChild(document.createTextNode(m.texto)); msgs.appendChild(d);
+    });
+    if (!st.msgs.some(m => m.quien === 'contact') && !st.producto) {
+      const o = document.createElement('div'); o.className = 'opts';
+      (C.productos || []).forEach(p => { const b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.textContent = p; b.onclick = () => enviar(p, true); o.appendChild(b); });
+      msgs.appendChild(o);
+    }
+    msgs.scrollTop = msgs.scrollHeight;
+  };
+  const unir = lista => {
+    if (!lista || !lista.length) return false;
+    const mapa = new Map(st.msgs.filter(m => !m.local).map(m => [m.id, m])); let nuevo = false;
+    lista.forEach(m => { if (!mapa.has(m.id)) nuevo = true; mapa.set(m.id, m); });
+    st.msgs = Array.from(mapa.values()).sort((a, b) => String(a.fecha).localeCompare(String(b.fecha))).concat(st.msgs.filter(m => m.local));
+    const reales = st.msgs.filter(m => !m.local); if (reales.length) st.ultimo = reales[reales.length - 1].id;
+    return nuevo;
+  };
+  const aviso = t => { const d = document.createElement('div'); d.className = 'msg msg-sistema'; d.innerHTML = `<span class="msg-error">${esc(t)}</span>`; msgs.appendChild(d); msgs.scrollTop = msgs.scrollHeight; };
+
+  /* Sondeo adaptable */
+  const ritmo = () => { const q = Date.now() - st.actividad; return q < 90000 ? 3000 : (q < 300000 ? 8000 : 20000); };
+  const parar = () => { clearTimeout(st.timer); st.timer = null; };
+  const programar = espera => { parar(); if (!st.abierto || !st.token || document.hidden) return; st.timer = setTimeout(sondear, espera || ritmo()); };
+  async function sondear() {
+    if (!st.token || !st.abierto || document.hidden) return;
+    try {
+      const j = await api('/' + encodeURIComponent(st.token) + '/mensajes' + (st.ultimo ? '?after=' + encodeURIComponent(st.ultimo) : ''));
+      if (unir(j.mensajes)) { pintar(); st.actividad = Date.now(); }
+      programar();
+    } catch (e) {
+      if (e.status === 404) { guardar(''); st.msgs = []; identificar('La conversación anterior expiró. Empecemos una nueva.'); return; }
+      programar(e.status === 429 ? 60000 : 15000);
+    }
+  }
+  document.addEventListener('visibilitychange', () => { if (!document.hidden && st.abierto && st.token) sondear(); });
+
+  /* Paso 1: nombre + WhatsApp + autorización (obligatorios) */
+  function identificar(nota) {
+    pie.hidden = true; msgs.innerHTML = '';
+    const d = document.createElement('div'); d.className = 'msg'; d.textContent = nota || 'Hola. Para empezar, déjanos tu nombre y WhatsApp. Un asesor (o nuestra IA) te responde aquí mismo.'; msgs.appendChild(d);
+    const f = document.createElement('form'); f.className = 'chat-form'; f.noValidate = true;
+    f.innerHTML = `<label class="campo" for="cvNom">Nombre<input class="input" id="cvNom" autocomplete="name" maxlength="120" placeholder="Tu nombre"></label>
+      <label class="campo" for="cvTel">WhatsApp<input class="input" id="cvTel" type="tel" inputmode="tel" autocomplete="tel" maxlength="40" placeholder="Ej. 300 123 4567"></label>
+      <label class="acepto" for="cvOk"><input type="checkbox" id="cvOk"><span>Autorizo el tratamiento de mis datos según la <a href="${esc(U.politica)}" target="_blank" rel="noopener">política de datos</a>.</span></label>
+      <span class="trampa" aria-hidden="true"><input type="text" name="sitio" tabindex="-1" autocomplete="off"></span>
+      <button class="btn btn-tinta btn-sm" type="submit">Empezar chat</button><span class="small" id="cvMsg" role="status"></span>`;
+    f.addEventListener('submit', async e => {
+      e.preventDefault(); const m = f.querySelector('#cvMsg'), err = t => { m.innerHTML = `<span class="msg-error">${esc(t)}</span>`; };
+      const nom = f.querySelector('#cvNom').value.trim(), tel = f.querySelector('#cvTel').value.trim();
+      if (!nom) return err('Escribe tu nombre.');
+      if (tel.replace(/\D/g, '').length < 7) return err('Escribe un WhatsApp de al menos 7 dígitos.');
+      if (!f.querySelector('#cvOk').checked) return err('Marca la autorización de datos para poder chatear.');
+      const b = f.querySelector('button'); b.disabled = true; b.textContent = 'Conectando…';
+      try {
+        const j = await api('', 'POST', { nombre: nom, whatsapp: tel, producto: st.producto, token: st.token, pagina: location.href, consent: 1, sitio: f.querySelector('[name=sitio]').value });
+        guardar(j.token); st.msgs = []; st.ultimo = ''; unir(j.mensajes); st.actividad = Date.now(); conversar();
+      } catch (x) { b.disabled = false; b.textContent = 'Empezar chat'; err(x.message); }
+    });
+    msgs.appendChild(f); setTimeout(() => { const i = f.querySelector('#cvNom'); if (i) i.focus(); }, 300);
+  }
+
+  /* Paso 2: conversación */
+  function conversar() { pie.hidden = false; pintar(); programar(1500); setTimeout(() => $('#chatIn').focus(), 200); }
+
+  async function enviar(texto, esProducto) {
+    texto = String(texto || '').trim().slice(0, 1500); if (!texto || !st.token || st.enviando) return;
+    if (esProducto) st.producto = texto;
+    st.enviando = true; const loc = { id: 'local-' + uid(), quien: 'contact', texto, fecha: new Date().toISOString(), local: true };
+    st.msgs.push(loc); pintar();
+    try {
+      const j = await api('/' + encodeURIComponent(st.token) + '/mensajes', 'POST', { texto, id: uid(), producto: st.producto });
+      st.msgs = st.msgs.filter(m => m !== loc); if (j.mensaje) unir([j.mensaje]); pintar();
+      st.actividad = Date.now(); programar(2500);
+    } catch (x) {
+      st.msgs = st.msgs.filter(m => m !== loc); pintar(); aviso(x.message);
+      if (x.status === 404) { guardar(''); identificar('La conversación expiró. Empecemos una nueva.'); }
+    } finally { st.enviando = false; }
+  }
+
+  return {
+    abrir() {
+      st.abierto = true;
+      if (!st.token) { identificar(); return; }
+      pie.hidden = false; if (!st.msgs.length) msgs.innerHTML = '<div class="msg">Cargando tu conversación…</div>';
+      api('/' + encodeURIComponent(st.token) + '/mensajes').then(j => { unir(j.mensajes); conversar(); }).catch(e => { if (e.status === 404) guardar(''); st.msgs = []; identificar(e.status === 404 ? 'La conversación anterior expiró. Empecemos una nueva.' : ''); });
+    },
+    cerrar() { st.abierto = false; parar(); },
+    enviar() { const i = $('#chatIn'); const v = i.value; i.value = ''; enviar(v, false); }
+  };
+})();
+
+function abrirChat() { panel.hidden = false; $('#lanzador').style.visibility = 'hidden'; if (vivo) { vivo.abrir(); return; } iniciarChat(); setTimeout(() => $('#chatIn').focus(), 300); }
+function cerrarChat() { panel.hidden = true; $('#lanzador').style.visibility = ''; if (vivo) vivo.cerrar(); }
 $$('[data-chat]').forEach(b => b.addEventListener('click', abrirChat)); $('#cerrarChat').onclick = cerrarChat;
 
 /* ================= VIDEOLLAMADA =================

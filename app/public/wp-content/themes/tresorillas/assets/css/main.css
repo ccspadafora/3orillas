@@ -1212,3 +1212,14 @@ section.tor-escena { padding: 6px 16px 0; }
 .lab-cel .lab-carga { inset: 10px; border-radius: 36px; }
 .tor-lab-sala .escena-cel { background: rgba(255,255,255,.04); border-color: rgba(255,255,255,.1); }
 .lab-acceso.movil .celular { width: 340px; }
+
+/* ===================== Cotiza en vivo conectado al ERP ===================== */
+.msg-quien { display: block; margin-bottom: 4px; font-size: 11px; font-weight: 600; letter-spacing: .04em; color: var(--tenue); }
+.msg.de-user { border-color: rgba(52,84,143,.25); background: #F4F7FC; }
+.msg.de-user .msg-quien { color: var(--cobalto); }
+.msg.de-ai_bot .msg-quien { color: var(--bronce); }
+.msg.enviando { opacity: .6; }
+.msg.msg-sistema { background: transparent; border: 0; padding: 0 2px; font-size: 13px; }
+.panel-pie[hidden] { display: none; }
+.chat-form .campo { font-size: 12.5px; }
+.chat-form .acepto { font-size: 12px; }

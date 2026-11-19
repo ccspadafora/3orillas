@@ -84,6 +84,10 @@ function tor_datos_js(): array {
 			'hIni'     => (int) ( $aj['hora_inicio'] ?? 8 ),
 			'hFin'     => (int) ( $aj['hora_fin'] ?? 18 ),
 			'zoom'     => class_exists( 'TOR_Zoom' ) && TOR_Zoom::activo(),
+			'chat'     => class_exists( 'TOR_Chat' ) && TOR_Chat::activo() ? array(
+				'api'       => esc_url_raw( rest_url( 'tor/v1/chat/sesiones' ) ),
+				'productos' => TOR_Chat::productos(),
+			) : false,
 		),
 	);
 }
