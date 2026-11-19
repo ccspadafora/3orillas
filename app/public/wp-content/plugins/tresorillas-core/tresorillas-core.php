@@ -24,12 +24,14 @@ require_once TOR_CORE_DIR . 'includes/class-tor-proyectos.php';
 require_once TOR_CORE_DIR . 'includes/class-tor-contactos.php';
 require_once TOR_CORE_DIR . 'includes/class-tor-redirecciones.php';
 require_once TOR_CORE_DIR . 'includes/class-tor-zoom.php';
+require_once TOR_CORE_DIR . 'includes/class-tor-chat.php';
 
 TOR_Ajustes::init();
 TOR_Proyectos::init();
 TOR_Contactos::init();
 TOR_Redirecciones::init();
 TOR_Zoom::init();
+TOR_Chat::init();
 
 if ( defined( 'WP_CLI' ) && WP_CLI ) {
 	require_once TOR_CORE_DIR . 'includes/class-tor-cli.php';

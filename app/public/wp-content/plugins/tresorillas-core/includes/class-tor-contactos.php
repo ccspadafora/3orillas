@@ -147,7 +147,7 @@ final class TOR_Contactos {
 	/**
 	 * Guarda un contacto ya sanitizado y avisa por correo. Devuelve el ID o 0.
 	 */
-	public static function guardar( array $d ): int {
+	public static function guardar( array $d, bool $avisar = true ): int {
 		$titulo = trim( ( $d['nombre'] ?: $d['telefono'] ) . ' — ' . $d['origen'] );
 		$id     = wp_insert_post(
 			array(
@@ -165,7 +165,9 @@ final class TOR_Contactos {
 				update_post_meta( $id, '_tor_' . $k, $v );
 			}
 		}
-		self::avisar( (int) $id, $d );
+		if ( $avisar ) {
+			self::avisar( (int) $id, $d );
+		}
 		return (int) $id;
 	}
 
