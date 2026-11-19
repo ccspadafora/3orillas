@@ -63,7 +63,16 @@ Repositorio: https://github.com/ccspadafora/3orillas (público; rama `main`). So
   - **Embebidas en el sitio** (iframe en sandbox, con recargar, pantalla completa y abrir aparte): Seeds, CRM de Campo, Reto (en marco de celular) e Insivo (solo mientras el sitio sea http; en producción https necesita que Insivo tenga HTTPS). HAB, Valfora ERP y Wanti tienen marcado «Abrir siempre en pestaña nueva» porque envían `X-Frame-Options: DENY`; para embeberlas, su servidor debe enviar `Content-Security-Policy: frame-ancestors 'self' https://3orillas.com https://www.3orillas.com` (y quitar X-Frame-Options) y luego desmarcar la casilla en el admin.
   - Las apps guardan la sesión con token en localStorage (funciona en iframe en todos los navegadores). El CRM de Campo además usa cookies (`credentials: include`): en Safari puede pedir abrirlo aparte.
 
+## Chat en vivo conectado al ERP (2026-11-19)
+- Adaptado del plugin `~/dev/VLF_ERP/wordpress/orillas-cotiza-en-vivo/` (no se modificó ese repositorio). **No activar ese plugin en este sitio**: el chat ya vive en `includes/class-tor-chat.php` y en el panel «Cotiza en vivo» del tema; activarlo duplicaría el lanzador.
+- Mismo contrato del ERP: `POST /api/v1/chat/web-widget/sessions/` (name, whatsapp, page_url, product_interest, session_token) y `GET/POST …/sessions/{token}/messages/` (`after`, content, external_message_id, product_interest), cabecera `X-Lead-Ingest-Key`. Remitentes: contact (visitante), user (asesor), ai_bot (IA); el panel los rotula.
+- Credenciales SOLO en `wp-config.php` o entorno: `TOR_CHAT_ERP_URL` (sin barra final) y `TOR_CHAT_ERP_KEY`. Sin ellas, el panel usa el flujo anterior (3 preguntas + WhatsApp, guarda en Contactos).
+- Rutas propias del sitio: `/wp-json/tor/v1/chat/sesiones` y `…/sesiones/{token}/mensajes` (nonce del sitio en `X-TOR-Nonce`).
+- Añadidos frente al plugin original: autorización Ley 1581 obligatoria (constancia en Contactos, origen «Chat en vivo (ERP)», sin correo), campo trampa, límites por IP (sesiones con el límite de Contactos; 40 mensajes y 900 consultas por hora), caché de 2 s del sondeo, IP real del visitante en `X-Forwarded-For` (el ERP limita por IP) y sondeo adaptable (3 s tras escribir, 8 s, 20 s en reposo; pausado con el panel cerrado o la pestaña oculta; 60 s tras un 429).
+- ERP: `web_widget` está limitado a 120/hora por IP; un chat abierto una hora supera ese límite. Subirlo (p. ej. 600/hora) y confirmar que el nginx del ERP conserva `X-Forwarded-For` (`$proxy_add_x_forwarded_for`).
+
 ## Pendientes antes de producción
+- Chat en vivo: poner `TOR_CHAT_ERP_URL` y `TOR_CHAT_ERP_KEY` en `wp-config.php`, habilitar public ingest en el ERP y subir el límite `web_widget`.
 - Zoom: crear la app Server-to-Server OAuth y poner las 4 constantes en `wp-config.php` del servidor.
 - Seeds (erp.seedscol.com) muestra en producción el correo `admin@seeds.co` y una contraseña ya escritos en su inicio de sesión: quitarlos de la app y usar un usuario de prueba con permisos mínimos.
 - Demo Lab: cargar usuario y clave de prueba de cada plataforma en el admin. Confirmar que cada usuario de prueba solo ve datos ficticios y tiene permisos mínimos (Clínica Sabana Norte maneja datos de salud). Poner HTTPS a 44.214.163.14.
